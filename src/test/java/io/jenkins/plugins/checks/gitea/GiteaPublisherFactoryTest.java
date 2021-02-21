@@ -1,16 +1,16 @@
-package io.jenkins.plugins.checks.github;
+package io.jenkins.plugins.checks.gitea;
 
 import java.io.IOException;
 import java.util.Optional;
 
+import com.cloudbees.plugins.credentials.common.StandardCredentials;
 import hudson.EnvVars;
 import hudson.plugins.git.GitSCM;
 import hudson.plugins.git.UserRemoteConfig;
 import jenkins.scm.api.SCMHead;
+import org.jenkinsci.plugin.gitea.GiteaSCMSource;
+import org.jenkinsci.plugin.gitea.PullRequestSCMRevision;
 import org.jenkinsci.plugins.displayurlapi.DisplayURLProvider;
-import org.jenkinsci.plugins.github_branch_source.GitHubAppCredentials;
-import org.jenkinsci.plugins.github_branch_source.GitHubSCMSource;
-import org.jenkinsci.plugins.github_branch_source.PullRequestSCMRevision;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
@@ -20,60 +20,60 @@ import hudson.model.Job;
 import hudson.model.Run;
 import hudson.model.TaskListener;
 
-class GitHubChecksPublisherFactoryTest {
+class GiteaPublisherFactoryTest {
     @Test
-    void shouldCreateGitHubChecksPublisherFromRunForProjectWithValidGitHubSCMSource() {
+    void shouldCreateGiteaChecksPublisherFromRunForProjectWithValidGiteaSCMSource() {
         Run run = mock(Run.class);
         Job job = mock(Job.class);
-        GitHubSCMSource source = mock(GitHubSCMSource.class);
-        GitHubAppCredentials credentials = mock(GitHubAppCredentials.class);
+        GiteaSCMSource source = mock(GiteaSCMSource.class);
+        StandardCredentials credentials = mock(StandardCredentials.class);
         PullRequestSCMRevision revision = mock(PullRequestSCMRevision.class);
         SCMFacade scmFacade = mock(SCMFacade.class);
 
         when(run.getParent()).thenReturn(job);
         when(job.getLastBuild()).thenReturn(run);
-        when(scmFacade.findGitHubSCMSource(job)).thenReturn(Optional.of(source));
+        when(scmFacade.findGiteaSCMSource(job)).thenReturn(Optional.of(source));
         when(source.getCredentialsId()).thenReturn("credentials id");
-        when(scmFacade.findGitHubAppCredentials(job, "credentials id")).thenReturn(Optional.of(credentials));
+        when(scmFacade.findGiteaAppCredentials(job, "credentials id")).thenReturn(Optional.of(credentials));
         when(scmFacade.findRevision(source, run)).thenReturn(Optional.of(revision));
         when(scmFacade.findHash(revision)).thenReturn(Optional.of("a1b2c3"));
 
-        GitHubChecksPublisherFactory factory = new GitHubChecksPublisherFactory(scmFacade, createDisplayURLProvider(run,
+        GiteaPublisherFactory factory = new GiteaPublisherFactory(scmFacade, createDisplayURLProvider(run,
                 job));
-        assertThat(factory.createPublisher(run, TaskListener.NULL)).containsInstanceOf(GitHubChecksPublisher.class);
+        assertThat(factory.createPublisher(run, TaskListener.NULL)).containsInstanceOf(GiteaChecksPublisher.class);
     }
 
     @Test
-    void shouldReturnGitHubChecksPublisherFromJobProjectWithValidGitHubSCMSource() {
+    void shouldReturnGiteaChecksPublisherFromJobProjectWithValidGiteaSCMSource() {
         Run run = mock(Run.class);
         Job job = mock(Job.class);
-        GitHubSCMSource source = mock(GitHubSCMSource.class);
-        GitHubAppCredentials credentials = mock(GitHubAppCredentials.class);
+        GiteaSCMSource source = mock(GiteaSCMSource.class);
+        StandardCredentials credentials = mock(StandardCredentials.class);
         PullRequestSCMRevision revision = mock(PullRequestSCMRevision.class);
         SCMHead head = mock(SCMHead.class);
         SCMFacade scmFacade = mock(SCMFacade.class);
 
         when(run.getParent()).thenReturn(job);
         when(job.getLastBuild()).thenReturn(run);
-        when(scmFacade.findGitHubSCMSource(job)).thenReturn(Optional.of(source));
+        when(scmFacade.findGiteaSCMSource(job)).thenReturn(Optional.of(source));
         when(source.getCredentialsId()).thenReturn("credentials id");
-        when(scmFacade.findGitHubAppCredentials(job, "credentials id")).thenReturn(Optional.of(credentials));
+        when(scmFacade.findGiteaAppCredentials(job, "credentials id")).thenReturn(Optional.of(credentials));
         when(scmFacade.findHead(job)).thenReturn(Optional.of(head));
         when(scmFacade.findRevision(source, head)).thenReturn(Optional.of(revision));
         when(scmFacade.findHash(revision)).thenReturn(Optional.of("a1b2c3"));
 
-        GitHubChecksPublisherFactory factory = new GitHubChecksPublisherFactory(scmFacade, createDisplayURLProvider(run,
+        GiteaPublisherFactory factory = new GiteaPublisherFactory(scmFacade, createDisplayURLProvider(run,
                 job));
-        assertThat(factory.createPublisher(job, TaskListener.NULL)).containsInstanceOf(GitHubChecksPublisher.class);
+        assertThat(factory.createPublisher(job, TaskListener.NULL)).containsInstanceOf(GiteaChecksPublisher.class);
     }
 
     @Test
-    void shouldCreateGitHubChecksPublisherFromRunForProjectWithValidGitSCM() throws IOException, InterruptedException {
+    void shouldCreateGiteaChecksPublisherFromRunForProjectWithValidGitSCM() throws IOException, InterruptedException {
         Job job = mock(Job.class);
         Run run = mock(Run.class);
         GitSCM gitSCM = mock(GitSCM.class);
         UserRemoteConfig config = mock(UserRemoteConfig.class);
-        GitHubAppCredentials credentials = mock(GitHubAppCredentials.class);
+        StandardCredentials credentials = mock(StandardCredentials.class);
         SCMFacade scmFacade = mock(SCMFacade.class);
         EnvVars envVars = mock(EnvVars.class);
 
@@ -84,12 +84,12 @@ class GitHubChecksPublisherFactoryTest {
         when(scmFacade.findGitSCM(run)).thenReturn(Optional.of(gitSCM));
         when(scmFacade.getUserRemoteConfig(gitSCM)).thenReturn(config);
         when(config.getCredentialsId()).thenReturn("1");
-        when(scmFacade.findGitHubAppCredentials(job, "1")).thenReturn(Optional.of(credentials));
-        when(config.getUrl()).thenReturn("https://github.com/jenkinsci/github-checks-plugin");
+        when(scmFacade.findGiteaAppCredentials(job, "1")).thenReturn(Optional.of(credentials));
+        when(config.getUrl()).thenReturn("https://github.com/jenkinsci/gitea-checks-plugin");
 
-        GitHubChecksPublisherFactory factory = new GitHubChecksPublisherFactory(scmFacade, createDisplayURLProvider(run,
+        GiteaPublisherFactory factory = new GiteaPublisherFactory(scmFacade, createDisplayURLProvider(run,
                 job));
-        assertThat(factory.createPublisher(run, TaskListener.NULL)).containsInstanceOf(GitHubChecksPublisher.class);
+        assertThat(factory.createPublisher(run, TaskListener.NULL)).containsInstanceOf(GiteaChecksPublisher.class);
     }
 
     @Test
@@ -98,7 +98,7 @@ class GitHubChecksPublisherFactoryTest {
         SCMFacade facade = mock(SCMFacade.class);
         DisplayURLProvider urlProvider = mock(DisplayURLProvider.class);
 
-        GitHubChecksPublisherFactory factory = new GitHubChecksPublisherFactory(facade, urlProvider);
+        GiteaPublisherFactory factory = new GiteaPublisherFactory(facade, urlProvider);
         assertThat(factory.createPublisher(run, TaskListener.NULL)).isNotPresent();
     }
 
@@ -108,7 +108,7 @@ class GitHubChecksPublisherFactoryTest {
         SCMFacade facade = mock(SCMFacade.class);
         DisplayURLProvider urlProvider = mock(DisplayURLProvider.class);
 
-        GitHubChecksPublisherFactory factory = new GitHubChecksPublisherFactory(facade, urlProvider);
+        GiteaPublisherFactory factory = new GiteaPublisherFactory(facade, urlProvider);
         assertThat(factory.createPublisher(job, TaskListener.NULL))
                 .isNotPresent();
     }

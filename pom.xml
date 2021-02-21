@@ -10,16 +10,16 @@
   </parent>
 
   <groupId>io.jenkins.plugins</groupId>
-  <artifactId>github-checks</artifactId>
+  <artifactId>gitea-checks</artifactId>
   <version>${revision}${changelist}</version>
   <packaging>hpi</packaging>
 
-  <name>GitHub Checks plugin</name>
-  <description>Allows users to publish GitHub checks</description>
+  <name>Gitea Checks plugin</name>
+  <description>Allows users to publish Gitea commit checks</description>
 
   <properties>
     <java.level>8</java.level>
-    <revision>1.0.11</revision>
+    <revision>1.0.0</revision>
     <changelist>-SNAPSHOT</changelist>
 
     <useBeta>true</useBeta>
@@ -27,7 +27,7 @@
     <!-- Jenkins Plug-in Dependencies Versions -->
     <checks-api.version>1.5.0</checks-api.version>
     <plugin-util-api.version>1.7.1</plugin-util-api.version>
-    <github-branch-source.version>2.9.3</github-branch-source.version>
+    <gitea.version>1.2.1</gitea.version>
 
     <!-- Test Library Dependencies Versions -->
     <jetty.version>9.4.36.v20210114</jetty.version>
@@ -46,12 +46,12 @@
     </license>
   </licenses>
 
-  <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
+  <url>https://github.com/flozzone/${project.artifactId}-plugin</url>
   <scm>
-    <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
-    <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
-    <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
-    <tag>v1.0.5</tag>
+    <connection>scm:git:git://github.com/flozzone/${project.artifactId}-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:flozzone/${project.artifactId}-plugin.git</developerConnection>
+    <url>https://github.com/flozzone/${project.artifactId}-plugin</url>
+    <tag>v1.0.0</tag>
   </scm>
 
   <dependencyManagement>
@@ -86,13 +86,8 @@
     </dependency>
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
-      <artifactId>github-branch-source</artifactId>
-      <version>${github-branch-source.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jenkins-ci.plugins</groupId>
-      <artifactId>github-api</artifactId>
-      <version>1.117</version>
+      <artifactId>gitea</artifactId>
+      <version>${gitea.version}</version>
     </dependency>
     <dependency>
       <groupId>org.jenkins-ci.plugins.workflow</groupId>
@@ -217,10 +212,9 @@
         <artifactId>assertj-assertions-generator-maven-plugin</artifactId>
         <configuration>
           <packages combine.children="append">
-            <package>io.jenkins.plugins.checks.github</package>
-            <package>io.jenkins.plugins.checks.github.status</package>
+            <package>io.jenkins.plugins.checks.gitea</package>
           </packages>
-          <entryPointClassPackage>io.jenkins.plugins.checks.github.assertions</entryPointClassPackage>
+          <entryPointClassPackage>io.jenkins.plugins.checks.gitea.assertions</entryPointClassPackage>
         </configuration>
       </plugin>
     </plugins>
@@ -244,6 +238,11 @@
       <id>xiongkezhi</id>
       <name>Kezhi Xiong</name>
       <email>august.xkz@gmail.com</email>
+    </developer>
+    <developer>
+      <id>flozzone</id>
+      <name>Florin Hillebrand</name>
+      <email>flozzone@gmail.com</email>
     </developer>
   </developers>
 

@@ -1,6 +1,0 @@
-<?jelly escape-by-default='true'?>
-<j:jelly xmlns:j="jelly:core" xmlns:g="/lib/github-checks/status">
-
-  <g:properties/>
-
-</j:jelly>

@@ -1,15 +1,15 @@
 {
   "request": {
-    "url": "/repos/XiongKezhi/Sandbox/check-runs",
+    "urlPattern": "^/api/v1/repos/XiongKezhi/Sandbox/statuses/.*$",
     "method": "POST",
     "headers": {
       "Accept": {
-        "equalTo": "application/vnd.github.antiope-preview+json"
+        "equalTo": "text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2"
       }
     },
     "bodyPatterns": [
       {
-        "equalToJson": "{\"conclusion\":\"success\",\"output\":{\"title\":\"Jenkins Check\",\"summary\":\"# A Successful Build\",\"annotations\":[{\"path\":\"Jenkinsfile\",\"start_line\":1,\"end_line\":2,\"annotation_level\":\"warning\",\"message\":\"say hello to Jenkins\",\"start_column\":0,\"end_column\":20}]},\"name\":\"Jenkins\",\"details_url\":\"https://ci.jenkins.io\",\"head_sha\":\"18c8e2fd86e7aa3748e279c14a00dc3f0b963e7f\",\"status\":\"completed\"}",
+        "equalToJson": "{\"context\":\"Jenkins\",\"description\":\"# A Successful Build\",\"state\":\"success\",\"status\":\"success\"}",
         "ignoreArrayOrder": true,
         "ignoreExtraElements": true
       }

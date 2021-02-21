@@ -1,7 +1,9 @@
-package io.jenkins.plugins.checks.github;
+package io.jenkins.plugins.checks.gitea;
 
 import com.cloudbees.plugins.credentials.CredentialsMatchers;
 import com.cloudbees.plugins.credentials.CredentialsProvider;
+import com.cloudbees.plugins.credentials.common.StandardCredentials;
+import com.cloudbees.plugins.credentials.domains.DomainRequirement;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import hudson.model.AbstractProject;
 import hudson.model.Job;
@@ -11,6 +13,8 @@ import hudson.plugins.git.UserRemoteConfig;
 import hudson.scm.NullSCM;
 import hudson.scm.SCM;
 import hudson.security.ACL;
+import jenkins.authentication.tokens.api.AuthenticationTokens;
+import jenkins.model.Jenkins;
 import jenkins.plugins.git.AbstractGitSCMSource;
 import jenkins.plugins.git.GitSCMSource;
 import jenkins.scm.api.SCMHead;
@@ -18,9 +22,9 @@ import jenkins.scm.api.SCMRevision;
 import jenkins.scm.api.SCMRevisionAction;
 import jenkins.scm.api.SCMSource;
 import jenkins.triggers.SCMTriggerItem;
-import org.jenkinsci.plugins.github_branch_source.GitHubAppCredentials;
-import org.jenkinsci.plugins.github_branch_source.GitHubSCMSource;
-import org.jenkinsci.plugins.github_branch_source.PullRequestSCMRevision;
+import org.jenkinsci.plugin.gitea.GiteaSCMSource;
+import org.jenkinsci.plugin.gitea.PullRequestSCMRevision;
+import org.jenkinsci.plugin.gitea.client.api.GiteaAuth;
 import org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition;
 import org.jenkinsci.plugins.workflow.flow.FlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
@@ -30,18 +34,22 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * Facade to {@link GitHubSCMSource} and {@link GitSCM} in Jenkins. 
+ * Facade to {@link GiteaSCMSource} and {@link GitSCM} in Jenkins.
  * Used for finding a supported SCM of a job.
  */
 public class SCMFacade {
+    private static final Logger LOGGER = Logger.getLogger(GiteaChecksPublisher.class.getName());
+
     /**
-     * Find {@link GitHubSCMSource} (or GitHub repository) used by the {@code job}.
+     * Find {@link GiteaSCMSource} (or Gitea repository) used by the {@code job}.
      *
      * @param job
      *         the Jenkins project
-     * @return the found GitHub SCM source used or empty
+     * @return the found Gitea SCM source used or empty
      */
     @CheckForNull
     public SCMSource findSCMSource(final Job<?, ?> job) {
@@ -49,15 +57,16 @@ public class SCMFacade {
     }
 
     /**
-     * Find {@link GitHubSCMSource} (or GitHub repository) used by the {@code job}.
+     * Find {@link GiteaSCMSource} (or Gitea repository) used by the {@code job}.
      *
      * @param job
      *         the Jenkins project
-     * @return the found GitHub SCM source used or empty
+     * @return the found Gitea SCM source used or empty
      */
-    public Optional<GitHubSCMSource> findGitHubSCMSource(final Job<?, ?> job) {
+    public Optional<GiteaSCMSource> findGiteaSCMSource(final Job<?, ?> job) {
         SCMSource source = findSCMSource(job);
-        return source instanceof GitHubSCMSource ? Optional.of((GitHubSCMSource) source) : Optional.empty();
+        LOGGER.log(Level.WARNING, "findGiteaSCMSource " + source.getClass().toString());
+        return source instanceof GiteaSCMSource ? Optional.of((GiteaSCMSource) source) : Optional.empty();
     }
 
     /**
@@ -65,7 +74,7 @@ public class SCMFacade {
      *
      * @param job
      *         the Jenkins project
-     * @return the found Git SCN source or empty
+     * @return the found Git SCM source or empty
      */
     public Optional<GitSCMSource> findGitSCMSource(final Job<?, ?> job) {
         SCMSource source = findSCMSource(job);
@@ -114,20 +123,28 @@ public class SCMFacade {
     }
 
     /**
-     * Find {@link GitHubAppCredentials} with the {@code credentialsId} used by the {@code job}.
+     * Find {@link StandardCredentials} with the {@code credentialsId} used by the {@code job}.
      *
      * @param job
      *         the Jenkins project
      * @param credentialsId
      *         the id of the target credentials
-     * @return the found GitHub App credentials or empty
+     * @return the found Gitea App credentials or empty
      */
-    public Optional<GitHubAppCredentials> findGitHubAppCredentials(final Job<?, ?> job, final String credentialsId) {
-        List<GitHubAppCredentials> credentials = CredentialsProvider.lookupCredentials(
-                GitHubAppCredentials.class, job, ACL.SYSTEM, Collections.emptyList());
-        GitHubAppCredentials appCredentials =
-                CredentialsMatchers.firstOrNull(credentials, CredentialsMatchers.withId(credentialsId));
-        return Optional.ofNullable(appCredentials);
+    public Optional<StandardCredentials> findGiteaAppCredentials(final Job<?, ?> job, final String credentialsId) {
+
+        StandardCredentials credential = CredentialsMatchers.firstOrNull(
+                CredentialsProvider.lookupCredentials(
+                        StandardCredentials.class, job, ACL.SYSTEM,
+                        Collections.emptyList()
+                ),
+                CredentialsMatchers.allOf(
+                        AuthenticationTokens.matcher(GiteaAuth.class),
+                        CredentialsMatchers.withId(credentialsId)
+                )
+        );
+
+        return Optional.ofNullable(credential);
     }
 
     /**
@@ -146,7 +163,7 @@ public class SCMFacade {
      * Fetch the current {@link SCMRevision} used by the {@code head} of the {@code source}.
      *
      * @param source
-     *         the GitHub repository
+     *         the Gitea repository
      * @param head
      *         the branch
      * @return the fetched revision or empty
@@ -166,12 +183,12 @@ public class SCMFacade {
      * {@link jenkins.scm.api.SCMRevisionAction}.
      *
      * @param source
-     *         the GitHub repository
+     *         the Gitea repository
      * @param run
      *         the Jenkins run
      * @return the found revision or empty
      */
-    public Optional<SCMRevision> findRevision(final GitHubSCMSource source, final Run<?, ?> run) {
+    public Optional<SCMRevision> findRevision(final GiteaSCMSource source, final Run<?, ?> run) {
         return Optional.ofNullable(SCMRevisionAction.getRevision(source, run));
     }
 
@@ -187,7 +204,7 @@ public class SCMFacade {
             return Optional.of(((AbstractGitSCMSource.SCMRevisionImpl) revision).getHash());
         }
         else if (revision instanceof PullRequestSCMRevision) {
-            return Optional.of(((PullRequestSCMRevision) revision).getPullHash());
+            return Optional.of(((PullRequestSCMRevision) revision).getOrigin().getHash());
         }
         else {
             return Optional.empty();

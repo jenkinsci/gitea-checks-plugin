@@ -1,4 +1,4 @@
-package io.jenkins.plugins.checks.github;
+package io.jenkins.plugins.checks.gitea;
 
 import edu.hm.hafner.util.FilteredLog;
 import edu.hm.hafner.util.VisibleForTesting;
@@ -17,15 +17,15 @@ import java.net.URL;
 import java.util.Optional;
 
 /**
- * Provides a {@link GitHubChecksContext} for a Jenkins job that uses a supported {@link GitSCM}.
+ * Provides a {@link GiteaChecksContext} for a Jenkins job that uses a supported {@link GitSCM}.
  */
-class GitSCMChecksContext extends GitHubChecksContext {
+class GitSCMChecksContext extends GiteaChecksContext {
     private final Run<?, ?> run;
 
     /**
      * Creates a {@link GitSCMChecksContext} according to the run. All attributes are computed during this period.
      *
-     * @param run    a run of a GitHub Branch Source project
+     * @param run    a run of a Gitea Branch Source project
      * @param runURL the URL to the Jenkins run
      */
     GitSCMChecksContext(final Run<?, ?> run, final String runURL) {
@@ -83,6 +83,35 @@ class GitSCMChecksContext extends GitHubChecksContext {
         return getRepository(repositoryURL);
     }
 
+    @Override
+    public String getRepoOwner() {
+        return getRepository().split("/")[0];
+    }
+
+    @Override
+    public String getRepo() {
+        return getRepository().split("/")[1];
+    }
+
+    @Override
+    public String getGiteaServerUrl() {
+
+        String repoUrl = getUserRemoteConfig().getUrl();
+        if (repoUrl == null) {
+            throw new IllegalStateException("Repository URL is null for " + getUserRemoteConfig().getName());
+        }
+
+        URL url;
+        try {
+            url = new URL(repoUrl);
+        }
+        catch (MalformedURLException e) {
+            return StringUtils.EMPTY;
+        }
+
+        return "https://" + url.getHost();
+    }
+
     @VisibleForTesting
     String getRepository(final String repositoryUrl) {
         if (StringUtils.isBlank(repositoryUrl)) {
@@ -126,12 +155,12 @@ class GitSCMChecksContext extends GitHubChecksContext {
             return gitSCM.get();
         }
         throw new IllegalStateException(
-                "Skipped publishing GitHub checks: no Git SCM source available for job: " + getJob().getName());
+                "Skipped publishing Gitea checks: no Git SCM source available for job: " + getJob().getName());
     }
 
     @Override
     public boolean isValid(final FilteredLog logger) {
-        logger.logError("Trying to resolve checks parameters from Git SCM...");
+        logger.logError("   Trying to resolve checks parameters from Git SCM...");
 
         if (!getScmFacade().findGitSCM(run).isPresent()) {
             logger.logError("Job does not use Git SCM");
@@ -160,7 +189,7 @@ class GitSCMChecksContext extends GitHubChecksContext {
             return false;
         }
 
-        logger.logInfo("Using GitSCM repository '%s' for GitHub checks", repository);
+        logger.logInfo("Using GitSCM repository '%s' for Gitea checks", repository);
 
         return true;
     }

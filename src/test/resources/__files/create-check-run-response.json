@@ -46,7 +46,7 @@
       "site_admin": false
     },
     "name": "Jenkins Checks API",
-    "description": "Integrate Jenkins as GitHub APP in order to create checks",
+    "description": "Integrate Jenkins as Gitea APP in order to create checks",
     "external_url": "https://smee.io/Bpa9LQrfHixLSOM7",
     "html_url": "https://github.com/apps/jenkins-checks-api",
     "created_at": "2020-02-22T08:15:07Z",

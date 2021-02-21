@@ -1,4 +1,4 @@
-package io.jenkins.plugins.checks.github;
+package io.jenkins.plugins.checks.gitea;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -20,7 +20,7 @@ import hudson.plugins.git.GitSCM;
  */
 public class GitSCMChecksContextITest extends IntegrationTestWithJenkinsPerSuite {
     private static final String EXISTING_HASH = "4ecc8623b06d99d5f029b66927438554fdd6a467";
-    private static final String HTTP_URL = "https://github.com/jenkinsci/github-checks-plugin.git";
+    private static final String HTTP_URL = "https://github.com/jenkinsci/gitea-checks-plugin.git";
     private static final String CREDENTIALS_ID = "credentials";
     private static final String URL_NAME = "url";
 
@@ -28,7 +28,7 @@ public class GitSCMChecksContextITest extends IntegrationTestWithJenkinsPerSuite
      * Creates a FreeStyle job that uses {@link hudson.plugins.git.GitSCM} and runs a successful build.
      * Then this build is used to create a new {@link GitSCMChecksContext}. So the build actually is not publishing
      * the checks we just ensure that we can create the context with the successful build (otherwise we would need
-     * Wiremock to handle the requests to GitHub).
+     * Wiremock to handle the requests to Gitea).
      */
     @Test
     public void shouldRetrieveContextFromFreeStyleBuild() throws IOException {
@@ -44,7 +44,7 @@ public class GitSCMChecksContextITest extends IntegrationTestWithJenkinsPerSuite
 
         GitSCMChecksContext gitSCMChecksContext = new GitSCMChecksContext(run, URL_NAME);
 
-        assertThat(gitSCMChecksContext.getRepository()).isEqualTo("jenkinsci/github-checks-plugin");
+        assertThat(gitSCMChecksContext.getRepository()).isEqualTo("jenkinsci/gitea-checks-plugin");
         assertThat(gitSCMChecksContext.getHeadSha()).isEqualTo(EXISTING_HASH);
         assertThat(gitSCMChecksContext.getCredentialsId()).isEqualTo(CREDENTIALS_ID);
     }
@@ -71,7 +71,7 @@ public class GitSCMChecksContextITest extends IntegrationTestWithJenkinsPerSuite
 
         GitSCMChecksContext gitSCMChecksContext = new GitSCMChecksContext(run, URL_NAME);
 
-        assertThat(gitSCMChecksContext.getRepository()).isEqualTo("jenkinsci/github-checks-plugin");
+        assertThat(gitSCMChecksContext.getRepository()).isEqualTo("jenkinsci/gitea-checks-plugin");
         assertThat(gitSCMChecksContext.getCredentialsId()).isEqualTo(CREDENTIALS_ID);
         assertThat(gitSCMChecksContext.getHeadSha()).isEqualTo(EXISTING_HASH); 
     }

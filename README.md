@@ -1,55 +1,47 @@
-# GitHub Checks API Plugin
+# Gitea Checks API Plugin
 
-[![Join the chat at https://gitter.im/jenkinsci/github-checks-api](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jenkinsci/github-checks-api)
-[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/XiongKezhi/checks-api-plugin/issues)
-[![Jenkins](https://ci.jenkins.io/job/Plugins/job/github-checks-plugin/job/master/badge/icon?subject=Jenkins%20CI)](https://ci.jenkins.io/job/Plugins/job/github-checks-plugin/job/master/)
-[![GitHub Actions](https://github.com/jenkinsci/github-checks-plugin/workflows/CI/badge.svg?branch=master)](https://github.com/jenkinsci/github-checks-plugin/actions)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/2c7fa67496a743778ca60cc9604212d2)](https://www.codacy.com/gh/jenkinsci/github-checks-plugin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jenkinsci/github-checks-plugin&amp;utm_campaign=Badge_Grade)
-[![codecov](https://codecov.io/gh/jenkinsci/github-checks-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/jenkinsci/github-checks-plugin)
+![Gitea Checks Plugin Cover](docs/images/gitea-checks-plugin-cover.png)
 
-![GitHub Checks Plugin Cover](docs/images/github-checks-plugin-cover.png)
-
-This plugin publishes checks to GitHub through [GitHub Checks API](https://docs.github.com/en/rest/reference/checks#runs).
-It implements the extension points defined in [Checks API Plugin](https://github.com/jenkinsci/checks-api-plugin). 
-
-This plugin has been installed, along with the [General API Plugin](https://github.com/jenkinsci/checks-api-plugin) on [ci.jenkins.io](https://ci.jenkins.io/Plugins) to help maintain over 1500 Jenkins plugins. You can take a look at the [action](https://github.com/jenkinsci/github-checks-plugin/runs/1025018883) for this repository or other plugin repositories under [Jenkins organization](https://github.com/jenkinsci) for the results.
+This plugin publishes checks to Gitea through Gitea API, while it implements the extension points defined in 
+[Checks API Plugin](https://github.com/jenkinsci/checks-api-plugin). It is an adapted version of the 
+[github-checks-plugin](https://github.com/jenkinsci/github-checks-plugin), which uses the Gitea API client
+from [gitea-plugin](https://github.com/jenkinsci/gitea-plugin).
 
 - [Features](#features)
   - [Build Status Check](#build-status-check)
-  - [Rerun Failed Build](#rerun-failed-build)
  - [Contributing](#contributing)
  - [Acknowledgements](#acknowledgements)
  - [LICENSE](#license)
  
 ## Features
 
-*Prerequsite: only GitHub App with proper permissions can publish checks, this [guide](https://github.com/jenkinsci/github-branch-source-plugin/blob/master/docs/github-app.adoc) helps you authenticate your Jenkins as a GitHub App.*
+*Prerequsite: Jenkins needs to have a valid *Gitea server* configuration with Gitea API credentials in Jenkins settings .*
 
 ### Build Status Check
 
-![GitHub Status](docs/images/github-status.png)
+![Gitea Commit Status](docs/images/gitea-status-checks.png)
 
-This plugin implements [the status checks feature from Checks API Plugin](https://github.com/jenkinsci/checks-api-plugin#build-status-check) to publish statuses (pending, in progress, and completed) to GitHub.
+This plugin implements [the status checks feature from Checks API Plugin](https://github.com/jenkinsci/checks-api-plugin#build-status-check) 
+to publish statuses (pending, in progress, and completed) to Gitea.
 
-You can customize it by configuring the "Status Checks Properties" behavior for your GitHub SCM Source or Git SCM projects:
+Gitea commit status are rather simple compared to GitHub checks: Gitea commit status show the *state*, a *check context*
+used as a identifier for a specific check and a *check description*. The *check context* can be used in Gitea to specify
+required checks for a specific branch (See `Gitea Branch Protection`).
 
-![Status Checks Properties](docs/images/status-checks-properties.png)
-
-*Note: If you are using [GitHub Branch Source Plugin](https://github.com/jenkinsci/github-branch-source-plugin), it will also send status notifications to GitHub through [Status API](https://docs.github.com/en/rest/reference/repos#statuses).
-You can disable it by using [Disable GitHub Multibranch Status Plugin](https://github.com/jenkinsci/disable-github-multibranch-status-plugin) or [Skip Notification Trait Plugin](https://github.com/jenkinsci/skip-notifications-trait-plugin).*
-
-### Rerun Failed Build
-
-![Failed Checks](docs/images/failed-checks.png)
-
-If your Jenkins build failed, a failed check will be published here.
-A "Re-run" button will be added automatically by GitHub, by clicking it, you can schedule a new build for the **last** commit of this branch.
+![Gitea Branch Protection](docs/images/gitea-branch-protection.png)
 
 ## Contributing
 
 Refer to our [contribution guidelines](https://github.com/jenkinsci/.github/blob/master/CONTRIBUTING.md)
 
 ## Acknowledgements
+
+Thanks to the developers of the [gitea-plugin](https://github.com/jenkinsci/gitea-plugin) to provide the *Gitea*
+integration into Jenkins. Publishing checks to *GIT* providers in this way wouldn't be possible without the Jenkins
+ecosystem: The [Checks API Plugin](https://github.com/jenkinsci/checks-api-plugin) provides the necessary base and
+the [github-checks-plugin](https://github.com/jenkinsci/github-checks-plugin) provides a reference implementation.
+With these prerequisites it was straight forward to copy the [github-checks-plugin](https://github.com/jenkinsci/github-checks-plugin)
+implementation and adapt it to the more simpler *Gitea*.
 
 This plugin was started as a [Google Summer of Code 2020 project](https://summerofcode.withgoogle.com/projects/#5139745388101632), special thanks to the support from [Jenkins GSoC SIG](https://www.jenkins.io/sigs/gsoc/) and the entire community.
 

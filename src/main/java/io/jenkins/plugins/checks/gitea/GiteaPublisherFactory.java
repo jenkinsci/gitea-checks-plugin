@@ -1,4 +1,4 @@
-package io.jenkins.plugins.checks.github;
+package io.jenkins.plugins.checks.gitea;
 
 import edu.hm.hafner.util.FilteredLog;
 import edu.hm.hafner.util.VisibleForTesting;
@@ -14,22 +14,22 @@ import org.jenkinsci.plugins.displayurlapi.DisplayURLProvider;
 import java.util.Optional;
 
 /**
- * An factory which produces {@link GitHubChecksPublisher}.
+ * An factory which produces {@link GiteaChecksPublisher}.
  */
 @Extension
-public class GitHubChecksPublisherFactory extends ChecksPublisherFactory {
+public class GiteaPublisherFactory extends ChecksPublisherFactory {
     private final SCMFacade scmFacade;
     private final DisplayURLProvider urlProvider;
 
     /**
-     * Creates a new instance of {@link GitHubChecksPublisherFactory}.
+     * Creates a new instance of {@link GiteaPublisherFactory}.
      */
-    public GitHubChecksPublisherFactory() {
+    public GiteaPublisherFactory() {
         this(new SCMFacade(), DisplayURLProvider.get());
     }
 
     @VisibleForTesting
-    GitHubChecksPublisherFactory(final SCMFacade scmFacade, final DisplayURLProvider urlProvider) {
+    GiteaPublisherFactory(final SCMFacade scmFacade, final DisplayURLProvider urlProvider) {
         super();
 
         this.scmFacade = scmFacade;
@@ -39,22 +39,22 @@ public class GitHubChecksPublisherFactory extends ChecksPublisherFactory {
     @Override
     protected Optional<ChecksPublisher> createPublisher(final Run<?, ?> run, final TaskListener listener) {
         final String runURL = urlProvider.getRunURL(run);
-        return createPublisher(listener, GitHubSCMSourceChecksContext.fromRun(run, runURL, scmFacade),
+        return createPublisher(listener, GiteaSCMSourceChecksContext.fromRun(run, runURL, scmFacade),
                 new GitSCMChecksContext(run, runURL, scmFacade));
     }
 
     @Override
     protected Optional<ChecksPublisher> createPublisher(final Job<?, ?> job, final TaskListener listener) {
-        return createPublisher(listener, GitHubSCMSourceChecksContext.fromJob(job, urlProvider.getJobURL(job), scmFacade));
+        return createPublisher(listener, GiteaSCMSourceChecksContext.fromJob(job, urlProvider.getJobURL(job), scmFacade));
     }
 
-    private Optional<ChecksPublisher> createPublisher(final TaskListener listener, final GitHubChecksContext... contexts) {
+    private Optional<ChecksPublisher> createPublisher(final TaskListener listener, final GiteaChecksContext... contexts) {
         FilteredLog causeLogger = new FilteredLog("Causes for no suitable publisher found: ");
-        PluginLogger consoleLogger = new PluginLogger(listener.getLogger(), "GitHub Checks");
+        PluginLogger consoleLogger = new PluginLogger(listener.getLogger(), "Gitea Checks");
 
-        for (GitHubChecksContext ctx : contexts) {
+        for (GiteaChecksContext ctx : contexts) {
             if (ctx.isValid(causeLogger)) {
-                return Optional.of(new GitHubChecksPublisher(ctx, consoleLogger));
+                return Optional.of(new GiteaChecksPublisher(ctx, consoleLogger));
             }
         }
 
