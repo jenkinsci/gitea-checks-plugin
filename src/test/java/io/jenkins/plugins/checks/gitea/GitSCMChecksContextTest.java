@@ -10,14 +10,14 @@ class GitSCMChecksContextTest {
     @Test
     public void shouldGetRepository() {
         for (String url : new String[]{
-                "git@197.168.2.0:jenkinsci/gitea-checks-plugin",
-                "git@localhost:jenkinsci/gitea-checks-plugin",
-                "git@github.com:jenkinsci/gitea-checks-plugin",
-                "http://github.com/jenkinsci/gitea-checks-plugin.git",
-                "https://github.com/jenkinsci/gitea-checks-plugin.git"
+                "git@197.168.2.0:flozzone/gitea-checks-plugin",
+                "git@localhost:flozzone/gitea-checks-plugin",
+                "git@github.com:flozzone/gitea-checks-plugin",
+                "http://github.com/flozzone/gitea-checks-plugin.git",
+                "https://github.com/flozzone/gitea-checks-plugin.git"
         }) {
             assertThat(new GitSCMChecksContext(mock(Run.class), "").getRepository(url))
-                    .isEqualTo("jenkinsci/gitea-checks-plugin");
+                    .isEqualTo("flozzone/gitea-checks-plugin");
         }
     }
 }

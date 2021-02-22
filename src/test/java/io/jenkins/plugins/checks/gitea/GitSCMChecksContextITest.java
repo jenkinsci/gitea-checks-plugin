@@ -20,7 +20,7 @@ import hudson.plugins.git.GitSCM;
  */
 public class GitSCMChecksContextITest extends IntegrationTestWithJenkinsPerSuite {
     private static final String EXISTING_HASH = "4ecc8623b06d99d5f029b66927438554fdd6a467";
-    private static final String HTTP_URL = "https://github.com/jenkinsci/gitea-checks-plugin.git";
+    private static final String HTTP_URL = "https://github.com/flozzone/gitea-checks-plugin.git";
     private static final String CREDENTIALS_ID = "credentials";
     private static final String URL_NAME = "url";
 
@@ -44,7 +44,7 @@ public class GitSCMChecksContextITest extends IntegrationTestWithJenkinsPerSuite
 
         GitSCMChecksContext gitSCMChecksContext = new GitSCMChecksContext(run, URL_NAME);
 
-        assertThat(gitSCMChecksContext.getRepository()).isEqualTo("jenkinsci/gitea-checks-plugin");
+        assertThat(gitSCMChecksContext.getRepository()).isEqualTo("flozzone/gitea-checks-plugin");
         assertThat(gitSCMChecksContext.getHeadSha()).isEqualTo(EXISTING_HASH);
         assertThat(gitSCMChecksContext.getCredentialsId()).isEqualTo(CREDENTIALS_ID);
     }
@@ -71,7 +71,7 @@ public class GitSCMChecksContextITest extends IntegrationTestWithJenkinsPerSuite
 
         GitSCMChecksContext gitSCMChecksContext = new GitSCMChecksContext(run, URL_NAME);
 
-        assertThat(gitSCMChecksContext.getRepository()).isEqualTo("jenkinsci/gitea-checks-plugin");
+        assertThat(gitSCMChecksContext.getRepository()).isEqualTo("flozzone/gitea-checks-plugin");
         assertThat(gitSCMChecksContext.getCredentialsId()).isEqualTo(CREDENTIALS_ID);
         assertThat(gitSCMChecksContext.getHeadSha()).isEqualTo(EXISTING_HASH); 
     }
