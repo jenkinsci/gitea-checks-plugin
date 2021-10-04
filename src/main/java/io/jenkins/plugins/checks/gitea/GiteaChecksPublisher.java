@@ -87,7 +87,7 @@ public class GiteaChecksPublisher extends ChecksPublisher {
 
         GiteaCommitStatus commitStatus = new GiteaCommitStatus();
 
-        giteaChecksDetails.getDetailsURL().ifPresent(commitStatus::setUrl);
+        giteaChecksDetails.getDetailsURL().ifPresent(commitStatus::setTargetUrl);
 
         commitStatus.setContext(giteaChecksDetails.getContextString());
 
