@@ -127,6 +127,7 @@ class GiteaChecksDetails {
     /**
      * Returns the UTC time when the check started.
      *
+     * @deprecated This is being deprecated since 1.0
      * @return the start time of a check
      */
     @Deprecated
@@ -142,6 +143,7 @@ class GiteaChecksDetails {
     /**
      * Returns the UTC time when the check completed.
      *
+     * @deprecated This is being deprecated since 1.0
      * @return the completed time of a check
      */
     @Deprecated
