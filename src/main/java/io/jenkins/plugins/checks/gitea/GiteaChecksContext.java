@@ -29,8 +29,24 @@ public abstract class GiteaChecksContext {
      */
     public abstract String getHeadSha();
 
+    /**
+     * Returns the source repository's owner name of the run, e.g. jenkins-ci
+     *
+     * @return the source repository's owner name
+     */
     public abstract String getRepoOwner();
+    /**
+     * Returns the source repository's name of the run. The name consists of the repository's name, e.g. jenkins
+     *
+     * @return the source repository's name
+     */
     public abstract String getRepo();
+    
+    /**
+     * Returns the source repository's server URL of the run.
+     *
+     * @return the source repository's server URL
+     */
     public abstract String getGiteaServerUrl();
 
     /**
