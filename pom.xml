@@ -19,7 +19,7 @@
 
   <properties>
     <java.level>8</java.level>
-    <revision>1.0.0</revision>
+    <revision>1.1.0</revision>
     <changelist>-SNAPSHOT</changelist>
 
     <useBeta>true</useBeta>
