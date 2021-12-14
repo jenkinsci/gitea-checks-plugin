@@ -9,7 +9,7 @@
     <relativePath />
   </parent>
 
-  <groupId>com.github.flozzone</groupId>
+  <groupId>com.github.Caellion</groupId>
   <artifactId>gitea-checks</artifactId>
   <version>${revision}${changelist}</version>
   <packaging>hpi</packaging>
@@ -45,6 +45,7 @@
       <url>https://opensource.org/licenses/MIT</url>
     </license>
   </licenses>
+
 
   <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
   <scm>
@@ -243,6 +244,11 @@
       <id>flozzone</id>
       <name>Florin Hillebrand</name>
       <email>flozzone@gmail.com</email>
+    </developer>
+    <developer>
+      <id>Caellion</id>
+      <name>Michał Kujawa</name>
+      <email>administrator@michalpol.pl</email>
     </developer>
   </developers>
 
