@@ -9,7 +9,7 @@
     <relativePath />
   </parent>
 
-  <groupId>com.github.flozzone</groupId>
+  <groupId>com.github.Caellion</groupId>
   <artifactId>gitea-checks</artifactId>
   <version>${revision}${changelist}</version>
   <packaging>hpi</packaging>
@@ -46,11 +46,11 @@
     </license>
   </licenses>
 
-  <url>https://github.com/flozzone/${project.artifactId}-plugin</url>
+  <url>https://github.com/Caellion/${project.artifactId}-plugin</url>
   <scm>
-    <connection>scm:git:git://github.com/flozzone/${project.artifactId}-plugin.git</connection>
-    <developerConnection>scm:git:git@github.com:flozzone/${project.artifactId}-plugin.git</developerConnection>
-    <url>https://github.com/flozzone/${project.artifactId}-plugin</url>
+    <connection>scm:git:git://github.com/Caellion/${project.artifactId}-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:Caellion/${project.artifactId}-plugin.git</developerConnection>
+    <url>https://github.com/Caellion/${project.artifactId}-plugin</url>
     <tag>v1.0.0</tag>
   </scm>
 
@@ -243,6 +243,11 @@
       <id>flozzone</id>
       <name>Florin Hillebrand</name>
       <email>flozzone@gmail.com</email>
+    </developer>
+    <developer>
+      <id>Caellion</id>
+      <name>Michał Kujawa</name>
+      <email>administrator@michalpol.pl</email>
     </developer>
   </developers>
 

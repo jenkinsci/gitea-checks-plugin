@@ -20,7 +20,7 @@ import hudson.plugins.git.GitSCM;
  */
 public class GitSCMChecksContextITest extends IntegrationTestWithJenkinsPerSuite {
     private static final String EXISTING_HASH = "4ecc8623b06d99d5f029b66927438554fdd6a467";
-    private static final String HTTP_URL = "https://github.com/flozzone/gitea-checks-plugin.git";
+    private static final String HTTP_URL = "https://github.com/Caellion/gitea-checks-plugin.git";
     private static final String CREDENTIALS_ID = "credentials";
     private static final String URL_NAME = "url";
 
@@ -33,10 +33,10 @@ public class GitSCMChecksContextITest extends IntegrationTestWithJenkinsPerSuite
     @Test
     public void shouldRetrieveContextFromFreeStyleBuild() throws IOException {
         FreeStyleProject job = createFreeStyleProject();
-        
+
         BranchSpec branchSpec = new BranchSpec(EXISTING_HASH);
         GitSCM scm = new GitSCM(GitSCM.createRepoList(HTTP_URL, CREDENTIALS_ID),
-                Collections.singletonList(branchSpec), false, Collections.emptyList(), 
+                Collections.singletonList(branchSpec), false, Collections.emptyList(),
                 null, null, Collections.emptyList());
         job.setScm(scm);
 
@@ -44,35 +44,35 @@ public class GitSCMChecksContextITest extends IntegrationTestWithJenkinsPerSuite
 
         GitSCMChecksContext gitSCMChecksContext = new GitSCMChecksContext(run, URL_NAME);
 
-        assertThat(gitSCMChecksContext.getRepository()).isEqualTo("flozzone/gitea-checks-plugin");
+        assertThat(gitSCMChecksContext.getRepository()).isEqualTo("Caellion/gitea-checks-plugin");
         assertThat(gitSCMChecksContext.getHeadSha()).isEqualTo(EXISTING_HASH);
         assertThat(gitSCMChecksContext.getCredentialsId()).isEqualTo(CREDENTIALS_ID);
     }
 
     /**
      * Creates a pipeline that uses {@link hudson.plugins.git.GitSCM} and runs a successful build.
-     * Then this build is used to create a new {@link GitSCMChecksContext}. 
+     * Then this build is used to create a new {@link GitSCMChecksContext}.
      */
-    @Test 
+    @Test
     public void shouldRetrieveContextFromPipeline() {
         WorkflowJob job = createPipeline();
-        
-        job.setDefinition(new CpsFlowDefinition("node {\n" 
-                + "  stage ('Checkout') {\n" 
+
+        job.setDefinition(new CpsFlowDefinition("node {\n"
+                + "  stage ('Checkout') {\n"
                 + "    checkout scm: ([\n"
                 + "                    $class: 'GitSCM',\n"
                 + "                    userRemoteConfigs: [[credentialsId: '" + CREDENTIALS_ID + "', url: '" + HTTP_URL + "']],\n"
                 + "                    branches: [[name: '" + EXISTING_HASH + "']]\n"
                 + "            ])"
-                + "  }\n" 
+                + "  }\n"
                 + "}\n", true));
-        
+
         Run<?, ?> run = buildSuccessfully(job);
 
         GitSCMChecksContext gitSCMChecksContext = new GitSCMChecksContext(run, URL_NAME);
 
-        assertThat(gitSCMChecksContext.getRepository()).isEqualTo("flozzone/gitea-checks-plugin");
+        assertThat(gitSCMChecksContext.getRepository()).isEqualTo("Caellion/gitea-checks-plugin");
         assertThat(gitSCMChecksContext.getCredentialsId()).isEqualTo(CREDENTIALS_ID);
-        assertThat(gitSCMChecksContext.getHeadSha()).isEqualTo(EXISTING_HASH); 
+        assertThat(gitSCMChecksContext.getHeadSha()).isEqualTo(EXISTING_HASH);
     }
 }
