@@ -19,7 +19,7 @@ import io.jenkins.plugins.checks.api.ChecksStatus;
 class GiteaChecksDetails {
     private final ChecksDetails details;
 
-    private static final int GITEA_MAX_DESCRIPTION_SIZE = 256;
+    private static final int GITEA_MAX_DESCRIPTION_SIZE = 1024;
 
     /**
      * Construct with the given {@link ChecksDetails}.
