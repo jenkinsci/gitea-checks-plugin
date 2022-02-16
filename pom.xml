@@ -9,7 +9,7 @@
     <relativePath />
   </parent>
 
-  <groupId>com.github.flozzone</groupId>
+  <groupId>io.jenkins.plugins</groupId>
   <artifactId>gitea-checks</artifactId>
   <version>${revision}${changelist}</version>
   <packaging>hpi</packaging>

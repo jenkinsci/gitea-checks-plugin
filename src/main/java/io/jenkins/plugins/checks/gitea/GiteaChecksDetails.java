@@ -50,10 +50,6 @@ class GiteaChecksDetails {
      * Returns the name of a Gitea commit status. This is displayed on a PR page on gitea, together with
      * the description.
      *
-     * Gitea defaults this to a string like 'flozzone/gitea-checks-plugin/pipeline/pr-master' but since
-     * all the information is ambiguous when displayed in Gitea PR context, just the name of the check as passed
-     * by a consumer is used here.
-     *
      * @return the name of the check
      */
     public String getContextString() {
@@ -62,7 +58,6 @@ class GiteaChecksDetails {
 
     /**
      * Returns the {@link GiteaCommitState} of a Gitea check run.
-     *
      *
      * @return the status of a check run
      * @throws IllegalArgumentException if the status of the {@code details} is not one of {@link ChecksStatus}
