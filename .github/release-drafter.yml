@@ -1,5 +1,4 @@
 name-template: 'Gitea Checks Plugin v$RESOLVED_VERSION 🎉'
-tag-template: 'v$RESOLVED_VERSION'
 
 template: |
   $CHANGES
