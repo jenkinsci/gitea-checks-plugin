@@ -218,7 +218,7 @@ public class GiteaChecksPublisherITest extends IntegrationTestWithJenkinsPerTest
     }
 
     private <R extends Run<J, R> & Queue.Executable, J extends Job<J, R> & ParameterizedJobMixIn.ParameterizedJob<J, R>>
-    GiteaChecksContext createGiteaChecksContextWithGiteaSCM(final J job) {
+            GiteaChecksContext createGiteaChecksContextWithGiteaSCM(final J job) {
         Run run = buildSuccessfully(job);
 
         SCMFacade scmFacade = mock(SCMFacade.class);

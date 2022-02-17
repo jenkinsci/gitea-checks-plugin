@@ -9,7 +9,7 @@
     <relativePath />
   </parent>
 
-  <groupId>com.github.flozzone</groupId>
+  <groupId>io.jenkins.plugins</groupId>
   <artifactId>gitea-checks</artifactId>
   <version>${revision}${changelist}</version>
   <packaging>hpi</packaging>
@@ -46,11 +46,11 @@
     </license>
   </licenses>
 
-  <url>https://github.com/flozzone/${project.artifactId}-plugin</url>
+  <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
   <scm>
-    <connection>scm:git:git://github.com/flozzone/${project.artifactId}-plugin.git</connection>
-    <developerConnection>scm:git:git@github.com:flozzone/${project.artifactId}-plugin.git</developerConnection>
-    <url>https://github.com/flozzone/${project.artifactId}-plugin</url>
+    <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
+    <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
     <tag>v1.0.0</tag>
   </scm>
 
