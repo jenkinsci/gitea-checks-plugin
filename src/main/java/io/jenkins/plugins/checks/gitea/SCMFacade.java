@@ -65,7 +65,6 @@ public class SCMFacade {
      */
     public Optional<GiteaSCMSource> findGiteaSCMSource(final Job<?, ?> job) {
         SCMSource source = findSCMSource(job);
-        LOGGER.log(Level.WARNING, "findGiteaSCMSource " + source.getClass().toString());
         return source instanceof GiteaSCMSource ? Optional.of((GiteaSCMSource) source) : Optional.empty();
     }
 
