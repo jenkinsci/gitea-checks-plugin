@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.jvnet.hudson.plugins</groupId>
     <artifactId>analysis-pom</artifactId>
-    <version>4.7.0</version>
+    <version>5.23.0</version>
     <relativePath />
   </parent>
 
@@ -24,17 +24,17 @@
     <useBeta>true</useBeta>
 
     <!-- Jenkins Plug-in Dependencies Versions -->
-    <checks-api.version>1.5.0</checks-api.version>
-    <plugin-util-api.version>1.7.1</plugin-util-api.version>
-    <gitea.version>1.2.1</gitea.version>
+    <checks-api.version>1.7.2</checks-api.version>
+    <plugin-util-api.version>2.9.0</plugin-util-api.version>
+    <gitea.version>1.4.1</gitea.version>
 
     <!-- Test Library Dependencies Versions -->
-    <jetty.version>9.4.36.v20210114</jetty.version>
-    <jackson.version>2.12.1</jackson.version>
+    <jetty.version>9.4.46.v20220331</jetty.version>
+    <jackson.version>2.12.6</jackson.version>
     <wiremock.version>2.33.1</wiremock.version>
-    <guava.version>29.0-jre</guava.version>
-    <asm.version>9.1</asm.version>
-    <json-unit-core.version>2.34.0</json-unit-core.version>
+    <guava.version>31.1-jre</guava.version>
+    <asm.version>9.3</asm.version>
+    <json-unit-core.version>2.31.0</json-unit-core.version>
     <http-client.version>4.5.13</http-client.version>
   </properties>
 
