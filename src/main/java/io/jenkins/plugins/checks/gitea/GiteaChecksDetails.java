@@ -62,7 +62,9 @@ class GiteaChecksDetails {
      * @return the status of a check run
      * @throws IllegalArgumentException if the status of the {@code details} is not one of {@link ChecksStatus}
      */
+    @SuppressWarnings("fallthrough")
     public GiteaCommitState getStatus() {
+
         switch (details.getStatus()) {
             case NONE:
             case QUEUED:
