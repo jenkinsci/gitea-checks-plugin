@@ -3,6 +3,7 @@ package io.jenkins.plugins.checks.gitea;
 import com.cloudbees.plugins.credentials.common.StandardCredentials;
 import edu.hm.hafner.util.FilteredLog;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.model.Job;
 import hudson.model.Run;
 import org.apache.commons.lang3.StringUtils;
@@ -74,6 +75,7 @@ public abstract class GiteaChecksContext {
      *
      * @return the credentials
      */
+    @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE", justification = "Shouldn't get null from getCredentialsId()")
     public StandardCredentials getCredentials() {
         return getGiteaAppCredentials(getCredentialsId());
     }
