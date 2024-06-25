@@ -7,7 +7,7 @@ import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.junit.Test;
 
-import io.jenkins.plugins.util.IntegrationTestWithJenkinsPerSuite;
+import io.jenkins.plugins.checks.IntegrationTestBase;
 import static org.assertj.core.api.Assertions.*;
 
 import hudson.model.FreeStyleProject;
@@ -18,7 +18,7 @@ import hudson.plugins.git.GitSCM;
 /**
  * Integration tests for {@link GitSCMChecksContext}.
  */
-public class GitSCMChecksContextITest extends IntegrationTestWithJenkinsPerSuite {
+public class GitSCMChecksContextITest extends IntegrationTestBase {
     private static final String EXISTING_HASH = "4ecc8623b06d99d5f029b66927438554fdd6a467";
     private static final String HTTP_URL = "https://github.com/jenkinsci/gitea-checks-plugin.git";
     private static final String CREDENTIALS_ID = "credentials";

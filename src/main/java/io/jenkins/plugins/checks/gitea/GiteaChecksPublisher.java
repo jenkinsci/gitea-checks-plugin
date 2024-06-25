@@ -52,8 +52,10 @@ public class GiteaChecksPublisher extends ChecksPublisher {
      *                the details of a check run
      */
     @Override
+    @SuppressWarnings("PMD.CloseResource")
     public void publish(final ChecksDetails details) {
         try {
+            // TODO: close connection
             GiteaConnection giteaConnection = connect(giteaServerUrl, context.getCredentials());
 
             GiteaChecksDetails giteaDetails = new GiteaChecksDetails(details);
@@ -76,15 +78,15 @@ public class GiteaChecksPublisher extends ChecksPublisher {
         }
     }
 
-    private static GiteaConnection connect(String serverUrl, StandardCredentials credentials)
+    private static GiteaConnection connect(final String serverUrl, final StandardCredentials credentials)
             throws IOException, InterruptedException {
         return Gitea.server(serverUrl)
                 .as(AuthenticationTokens.convert(GiteaAuth.class, credentials))
                 .open();
     }
 
-    private GiteaCommitStatus publishGiteaCommitStatus(GiteaConnection giteaConnection,
-            GiteaChecksDetails giteaChecksDetails) throws IOException, InterruptedException {
+    private GiteaCommitStatus publishGiteaCommitStatus(final GiteaConnection giteaConnection,
+            final GiteaChecksDetails giteaChecksDetails) throws IOException, InterruptedException {
         GiteaCommitStatus commitStatus = new GiteaCommitStatus();
 
         giteaChecksDetails.getDetailsURL().ifPresent(commitStatus::setTargetUrl);
