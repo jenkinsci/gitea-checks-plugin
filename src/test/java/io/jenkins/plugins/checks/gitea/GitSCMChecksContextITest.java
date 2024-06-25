@@ -5,11 +5,9 @@ import java.util.Collections;
 
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
-import org.junit.Rule;
 import org.junit.Test;
-import org.jvnet.hudson.test.JenkinsRule;
 
-import io.jenkins.plugins.util.IntegrationTest;
+import io.jenkins.plugins.checks.IntegrationTestBase;
 import static org.assertj.core.api.Assertions.*;
 
 import hudson.model.FreeStyleProject;
@@ -20,18 +18,11 @@ import hudson.plugins.git.GitSCM;
 /**
  * Integration tests for {@link GitSCMChecksContext}.
  */
-public class GitSCMChecksContextITest extends IntegrationTest {
+public class GitSCMChecksContextITest extends IntegrationTestBase {
     private static final String EXISTING_HASH = "4ecc8623b06d99d5f029b66927438554fdd6a467";
     private static final String HTTP_URL = "https://github.com/jenkinsci/gitea-checks-plugin.git";
     private static final String CREDENTIALS_ID = "credentials";
     private static final String URL_NAME = "url";
-    
-    @Rule public JenkinsRule r = new JenkinsRule();
-
-    @Override
-    protected JenkinsRule getJenkins() {
-        return r;
-    }
 
     /**
      * Creates a FreeStyle job that uses {@link hudson.plugins.git.GitSCM} and runs a successful build.
