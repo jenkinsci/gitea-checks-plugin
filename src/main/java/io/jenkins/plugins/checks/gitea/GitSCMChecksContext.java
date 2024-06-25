@@ -17,13 +17,15 @@ import java.net.URL;
 import java.util.Optional;
 
 /**
- * Provides a {@link GiteaChecksContext} for a Jenkins job that uses a supported {@link GitSCM}.
+ * Provides a {@link GiteaChecksContext} for a Jenkins job that uses a supported
+ * {@link GitSCM}.
  */
 class GitSCMChecksContext extends GiteaChecksContext {
     private final Run<?, ?> run;
 
     /**
-     * Creates a {@link GitSCMChecksContext} according to the run. All attributes are computed during this period.
+     * Creates a {@link GitSCMChecksContext} according to the run. All attributes
+     * are computed during this period.
      *
      * @param run    a run of a Gitea Branch Source project
      * @param runURL the URL to the Jenkins run
@@ -95,7 +97,6 @@ class GitSCMChecksContext extends GiteaChecksContext {
 
     @Override
     public String getGiteaServerUrl() {
-
         String repoUrl = getUserRemoteConfig().getUrl();
         if (repoUrl == null) {
             throw new IllegalStateException("Repository URL is null for " + getUserRemoteConfig().getName());

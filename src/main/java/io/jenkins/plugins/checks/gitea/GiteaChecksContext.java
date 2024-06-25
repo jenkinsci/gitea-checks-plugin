@@ -35,13 +35,14 @@ public abstract class GiteaChecksContext {
      * @return the source repository's owner name
      */
     public abstract String getRepoOwner();
+
     /**
      * Returns the source repository's name of the run. The name consists of the repository's name, e.g. jenkins
      *
      * @return the source repository's name
      */
     public abstract String getRepo();
-    
+
     /**
      * Returns the source repository's server URL of the run.
      *
@@ -75,7 +76,7 @@ public abstract class GiteaChecksContext {
      * @return the credentials
      */
     public StandardCredentials getCredentials() {
-        return getGiteaAppCredentials(getCredentialsId());
+        return getGiteaAppCredentials(StringUtils.defaultIfEmpty(getCredentialsId(), ""));
     }
 
     /**
@@ -94,7 +95,6 @@ public abstract class GiteaChecksContext {
     protected SCMFacade getScmFacade() {
         return scmFacade;
     }
-
 
     protected StandardCredentials getGiteaAppCredentials(final String credentialsId) {
         return findGiteaAppCredentials(credentialsId).orElseThrow(() ->

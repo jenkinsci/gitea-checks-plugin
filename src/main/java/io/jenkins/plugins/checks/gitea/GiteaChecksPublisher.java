@@ -30,13 +30,14 @@ public class GiteaChecksPublisher extends ChecksPublisher {
      * {@inheritDoc}.
      *
      * @param context
-     *         a context which contains SCM properties
+     *                a context which contains SCM properties
      */
     public GiteaChecksPublisher(final GiteaChecksContext context, final PluginLogger buildLogger) {
         this(context, buildLogger, context.getGiteaServerUrl());
     }
 
-    GiteaChecksPublisher(final GiteaChecksContext context, final PluginLogger buildLogger, final String giteaServerUrl) {
+    GiteaChecksPublisher(final GiteaChecksContext context, final PluginLogger buildLogger,
+            final String giteaServerUrl) {
         super();
 
         this.context = context;
@@ -48,7 +49,7 @@ public class GiteaChecksPublisher extends ChecksPublisher {
      * Publishes a Gitea check run.
      *
      * @param details
-     *         the details of a check run
+     *                the details of a check run
      */
     @Override
     public void publish(final ChecksDetails details) {
@@ -58,15 +59,15 @@ public class GiteaChecksPublisher extends ChecksPublisher {
             GiteaChecksDetails giteaDetails = new GiteaChecksDetails(details);
             publishGiteaCommitStatus(giteaConnection, giteaDetails);
 
-
-            buildLogger.log("Gitea check (name: %s, status: %s, description: %s) has been published.", giteaDetails.getContextString(),
+            buildLogger.log("Gitea check (name: %s, status: %s, description: %s) has been published.",
+                    giteaDetails.getContextString(),
                     giteaDetails.getStatus(), giteaDetails.getDescription());
             SYSTEM_LOGGER.fine(format("Published check for repo: %s, sha: %s, job name: %s, name: %s, status: %s",
-                            context.getRepository(),
-                            context.getHeadSha(),
-                            context.getJob().getFullName(),
-                            giteaDetails.getContextString(),
-                            giteaDetails.getStatus()).replaceAll("[\r\n]", ""));
+                    context.getRepository(),
+                    context.getHeadSha(),
+                    context.getJob().getFullName(),
+                    giteaDetails.getContextString(),
+                    giteaDetails.getStatus()).replaceAll("[\r\n]", ""));
         }
         catch (IOException | InterruptedException e) {
             String message = "Failed Publishing Gitea checks: ";
@@ -82,9 +83,8 @@ public class GiteaChecksPublisher extends ChecksPublisher {
                 .open();
     }
 
-    private GiteaCommitStatus publishGiteaCommitStatus(GiteaConnection giteaConnection, GiteaChecksDetails giteaChecksDetails) throws
-            IOException, InterruptedException {
-
+    private GiteaCommitStatus publishGiteaCommitStatus(GiteaConnection giteaConnection,
+            GiteaChecksDetails giteaChecksDetails) throws IOException, InterruptedException {
         GiteaCommitStatus commitStatus = new GiteaCommitStatus();
 
         giteaChecksDetails.getDetailsURL().ifPresent(commitStatus::setTargetUrl);
