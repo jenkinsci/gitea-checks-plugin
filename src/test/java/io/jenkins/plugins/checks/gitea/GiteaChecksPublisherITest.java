@@ -62,6 +62,7 @@ public class GiteaChecksPublisherITest extends IntegrationTestBase {
      * @return A list of methods used to create GiteaChecksContexts, with which each test should be run.
      */
     @Parameterized.Parameters(name = "{0}")
+    @SuppressWarnings("PMD.UnnecessaryVarargsArrayCreation") // TODO: fix me?
     public static Collection<Object[]> contextBuilders() {
         return Arrays.asList(new Object[][]{
                 {"Freestyle (run)", (Function<GiteaChecksPublisherITest, GiteaChecksContext>) GiteaChecksPublisherITest::createGiteaChecksContextWithGiteaSCMFreestyle, false},
