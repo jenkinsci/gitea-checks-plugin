@@ -29,8 +29,6 @@
 
     <!-- Test Library Dependencies Versions -->
     <wiremock.version>2.33.1</wiremock.version>
-    <guava.version>29.0-jre</guava.version>
-    <asm.version>9.1</asm.version>
     <testcontainers.version>1.19.8</testcontainers.version>
   </properties>
 
@@ -55,12 +53,6 @@
     <dependency>
       <groupId>io.jenkins.plugins</groupId>
       <artifactId>plugin-util-api</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jenkins-ci.plugins</groupId>
-      <artifactId>credentials</artifactId>
-      <version>1304.v5ec13eecef46</version>
     </dependency>
 
     <dependency>
@@ -90,6 +82,12 @@
       <artifactId>workflow-job</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>credentials</artifactId>
+      <version>1304.v5ec13eecef46</version>
+    </dependency>
+
     <!-- Test Dependencies -->
     <dependency>
       <groupId>com.github.tomakehurst</groupId>
@@ -107,13 +105,13 @@
     </dependency>
 
     <dependency>
-     <groupId>org.jenkins-ci.plugins</groupId>
+      <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>ssh-credentials</artifactId>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-     <groupId>org.jenkins-ci.plugins</groupId>
+      <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>ssh-slaves</artifactId>
       <scope>test</scope>
     </dependency>
