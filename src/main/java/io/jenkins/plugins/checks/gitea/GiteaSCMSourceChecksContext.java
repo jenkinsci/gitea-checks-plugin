@@ -14,7 +14,7 @@ import java.util.Optional;
 /**
  * Provides a {@link GiteaChecksContext} for a Jenkins job that uses a supported {@link GiteaSCMSource}.
  */
-class GiteaSCMSourceChecksContext extends GiteaChecksContext {
+final class GiteaSCMSourceChecksContext extends GiteaChecksContext {
     @CheckForNull
     private final String sha;
     @CheckForNull
