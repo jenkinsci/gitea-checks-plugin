@@ -32,15 +32,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 /**
  * Facade to {@link GiteaSCMSource} and {@link GitSCM} in Jenkins.
  * Used for finding a supported SCM of a job.
  */
+@SuppressWarnings("PMD.CouplingBetweenObjects")
 public class SCMFacade {
-    private static final Logger LOGGER = Logger.getLogger(GiteaChecksPublisher.class.getName());
-
     /**
      * Find {@link GiteaSCMSource} (or Gitea repository) used by the {@code job}.
      *

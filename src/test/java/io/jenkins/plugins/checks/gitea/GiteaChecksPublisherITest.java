@@ -13,7 +13,6 @@ import com.cloudbees.plugins.credentials.common.StandardCredentials;
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
 import hudson.model.Queue;
-import io.jenkins.plugins.util.IntegrationTestWithJenkinsPerTest;
 import io.jenkins.plugins.util.PluginLogger;
 import jenkins.model.ParameterizedJobMixIn;
 import org.jenkinsci.plugin.gitea.GiteaSCMSource;
@@ -36,7 +35,7 @@ import org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider;
 
 import hudson.model.Run;
 import jenkins.scm.api.SCMHead;
-
+import io.jenkins.plugins.checks.IntegrationTestBase;
 import io.jenkins.plugins.checks.api.ChecksAction;
 import io.jenkins.plugins.checks.api.ChecksAnnotation.ChecksAnnotationBuilder;
 import io.jenkins.plugins.checks.api.ChecksAnnotation.ChecksAnnotationLevel;
@@ -51,12 +50,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 /**
- * Tests if the {@link GiteaChecksPublisher} actually sends out the requests to Gitea in order to publish the check
- * runs.
+ * Tests if the {@link GiteaChecksPublisher} actually sends out the requests to
+ * Gitea in order to publish the check runs.
  */
 @RunWith(Parameterized.class)
-@SuppressWarnings({"PMD.ExcessiveImports", "checkstyle:ClassDataAbstractionCoupling", "rawtypes", "checkstyle:ClassFanOutComplexity", "checkstyle:JavaNCSS"})
-public class GiteaChecksPublisherITest extends IntegrationTestWithJenkinsPerTest {
+@SuppressWarnings({ "PMD.ExcessiveImports", "checkstyle:ClassDataAbstractionCoupling", "rawtypes",
+        "checkstyle:ClassFanOutComplexity", "checkstyle:JavaNCSS" })
+public class GiteaChecksPublisherITest extends IntegrationTestBase {
     /**
      * Provides parameters for tests.
      * @return A list of methods used to create GiteaChecksContexts, with which each test should be run.
