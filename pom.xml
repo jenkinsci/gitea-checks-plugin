@@ -18,23 +18,19 @@
   <description>Allows users to publish Gitea commit checks</description>
 
   <properties>
+    <java.level>8</java.level>
     <changelist>999999-SNAPSHOT</changelist>
 
     <useBeta>true</useBeta>
 
     <!-- Jenkins Plug-in Dependencies Versions -->
     <checks-api.version>1.5.0</checks-api.version>
-    <plugin-util-api.version>1.7.1</plugin-util-api.version>
     <gitea.version>1.2.1</gitea.version>
 
     <!-- Test Library Dependencies Versions -->
-    <jetty.version>9.4.36.v20210114</jetty.version>
-    <jackson.version>2.12.1</jackson.version>
     <wiremock.version>2.33.1</wiremock.version>
     <guava.version>29.0-jre</guava.version>
     <asm.version>9.1</asm.version>
-    <json-unit-core.version>2.34.0</json-unit-core.version>
-    <http-client.version>4.5.13</http-client.version>
     <testcontainers.version>1.19.8</testcontainers.version>
   </properties>
 
@@ -53,16 +49,7 @@
     <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
     <tag>${scmTag}</tag>
   </scm>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-client</artifactId>
-        <version>${jetty.version}</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
+  
 
   <dependencies>
     <dependency>
@@ -110,85 +97,7 @@
       <version>${wiremock.version}</version>
       <scope>test</scope>
     </dependency>
-    <!-- <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-core</artifactId>
-      <version>${jackson.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>${jackson.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-annotations</artifactId>
-      <version>${jackson.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-server</artifactId>
-      <version>${jetty.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-http</artifactId>
-      <version>${jetty.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-util</artifactId>
-      <version>${jetty.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-io</artifactId>
-      <version>${jetty.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-servlet</artifactId>
-      <version>${jetty.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-webapp</artifactId>
-      <version>${jetty.version}</version>
-      <scope>test</scope>
-    </dependency> -->
-
-    <dependency>
-      <groupId>org.ow2.asm</groupId>
-      <artifactId>asm</artifactId>
-      <version>${asm.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>net.javacrumbs.json-unit</groupId>
-      <artifactId>json-unit-core</artifactId>
-      <version>${json-unit-core.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>${http-client.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>20.0</version>
-      <scope>test</scope>
-    </dependency>
+   
 
     <dependency>
       <groupId>org.testcontainers</groupId>
