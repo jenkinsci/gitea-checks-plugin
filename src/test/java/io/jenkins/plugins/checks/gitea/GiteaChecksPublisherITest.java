@@ -30,6 +30,8 @@ import org.jvnet.hudson.test.LoggerRule;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 import org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider;
 
 import hudson.model.Run;
@@ -55,7 +57,6 @@ import static org.mockito.Mockito.*;
 @RunWith(Parameterized.class)
 @SuppressWarnings({"PMD.ExcessiveImports", "checkstyle:ClassDataAbstractionCoupling", "rawtypes", "checkstyle:ClassFanOutComplexity", "checkstyle:JavaNCSS"})
 public class GiteaChecksPublisherITest extends IntegrationTestWithJenkinsPerTest {
-
     /**
      * Provides parameters for tests.
      * @return A list of methods used to create GiteaChecksContexts, with which each test should be run.
@@ -75,6 +76,7 @@ public class GiteaChecksPublisherITest extends IntegrationTestWithJenkinsPerTest
      */
     @SuppressWarnings("checkstyle:VisibilityModifier")
     @Parameterized.Parameter(0)
+    @CheckForNull
     public String contextBuilderName;
 
     /**
@@ -82,6 +84,7 @@ public class GiteaChecksPublisherITest extends IntegrationTestWithJenkinsPerTest
      */
     @SuppressWarnings("checkstyle:VisibilityModifier")
     @Parameterized.Parameter(1)
+    @CheckForNull
     public Function<GiteaChecksPublisherITest, GiteaChecksContext> contextBuilder;
 
     /**
