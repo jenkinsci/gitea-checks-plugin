@@ -24,6 +24,11 @@ public class GitSCMChecksContextITest extends IntegrationTestWithJenkinsPerSuite
     private static final String CREDENTIALS_ID = "credentials";
     private static final String URL_NAME = "url";
 
+    @Test
+    public void shouldHaveJenkins() {
+        assertThat(getJenkins()).isNotNull();
+    }
+
     /**
      * Creates a FreeStyle job that uses {@link hudson.plugins.git.GitSCM} and runs a successful build.
      * Then this build is used to create a new {@link GitSCMChecksContext}. So the build actually is not publishing
