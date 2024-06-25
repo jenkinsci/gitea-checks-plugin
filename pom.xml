@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.jvnet.hudson.plugins</groupId>
     <artifactId>analysis-pom</artifactId>
-    <version>4.7.0</version>
+    <version>6.17.0</version>
     <relativePath />
   </parent>
 
@@ -18,7 +18,6 @@
   <description>Allows users to publish Gitea commit checks</description>
 
   <properties>
-    <java.level>8</java.level>
     <changelist>999999-SNAPSHOT</changelist>
 
     <useBeta>true</useBeta>
@@ -36,6 +35,7 @@
     <asm.version>9.1</asm.version>
     <json-unit-core.version>2.34.0</json-unit-core.version>
     <http-client.version>4.5.13</http-client.version>
+    <testcontainers.version>1.19.8</testcontainers.version>
   </properties>
 
   <licenses>
@@ -47,10 +47,10 @@
 
   <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
   <scm>
-    <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
+    <connection>scm:git:https://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
     <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
-    <tag>v1.0.0</tag>
+    <tag>${scmTag}</tag>
   </scm>
 
   <dependencyManagement>
@@ -67,14 +67,12 @@
     <dependency>
       <groupId>io.jenkins.plugins</groupId>
       <artifactId>plugin-util-api</artifactId>
-      <version>${plugin-util-api.version}</version>
     </dependency>
     <dependency>
       <groupId>io.jenkins.plugins</groupId>
       <artifactId>plugin-util-api</artifactId>
-      <version>${plugin-util-api.version}</version>
       <scope>test</scope>
-      <type>test-jar</type>
+      <classifier>tests</classifier>
     </dependency>
 
     <!-- Jenkins Plugin Dependencies -->
@@ -100,11 +98,11 @@
     <!-- Test Dependencies -->
     <dependency>
       <groupId>com.github.tomakehurst</groupId>
-      <artifactId>wiremock-jre8</artifactId>
+      <artifactId>wiremock-jre8-standalone</artifactId>
       <version>${wiremock.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
+    <!-- <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
       <version>${jackson.version}</version>
@@ -157,7 +155,8 @@
       <artifactId>jetty-webapp</artifactId>
       <version>${jetty.version}</version>
       <scope>test</scope>
-    </dependency>
+    </dependency> -->
+    
     <dependency>
       <groupId>org.ow2.asm</groupId>
       <artifactId>asm</artifactId>
@@ -182,12 +181,26 @@
       <version>20.0</version>
       <scope>test</scope>
     </dependency>
+
     <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-inline</artifactId>
-      <version>${mockito.version}</version>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>testcontainers</artifactId>
+      <version>${testcontainers.version}</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+     <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>ssh-credentials</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+     <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>ssh-slaves</artifactId>
+      <scope>test</scope>
+    </dependency>
+   
     <!-- stage -->
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
@@ -242,6 +255,10 @@
       <id>flozzone</id>
       <name>Florin Hillebrand</name>
       <email>flozzone@gmail.com</email>
+    </developer>
+    <developer>
+      <id>viceice</id>
+      <name>Michael Kriese</name>
     </developer>
   </developers>
 
