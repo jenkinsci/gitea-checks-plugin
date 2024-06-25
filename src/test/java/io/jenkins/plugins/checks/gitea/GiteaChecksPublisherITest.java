@@ -13,7 +13,7 @@ import com.cloudbees.plugins.credentials.common.StandardCredentials;
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
 import hudson.model.Queue;
-import io.jenkins.plugins.util.IntegrationTestWithJenkinsPerTest;
+import io.jenkins.plugins.util.IntegrationTest;
 import io.jenkins.plugins.util.PluginLogger;
 import jenkins.model.ParameterizedJobMixIn;
 import org.jenkinsci.plugin.gitea.GiteaSCMSource;
@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.jvnet.hudson.test.Issue;
+import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.LoggerRule;
 
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
@@ -56,7 +57,14 @@ import static org.mockito.Mockito.*;
  */
 @RunWith(Parameterized.class)
 @SuppressWarnings({"PMD.ExcessiveImports", "checkstyle:ClassDataAbstractionCoupling", "rawtypes", "checkstyle:ClassFanOutComplexity", "checkstyle:JavaNCSS"})
-public class GiteaChecksPublisherITest extends IntegrationTestWithJenkinsPerTest {
+public class GiteaChecksPublisherITest extends IntegrationTest {
+    @Rule public JenkinsRule r = new JenkinsRule();
+
+    @Override
+    protected JenkinsRule getJenkins() {
+        return r;
+    }
+
     /**
      * Provides parameters for tests.
      * @return A list of methods used to create GiteaChecksContexts, with which each test should be run.
