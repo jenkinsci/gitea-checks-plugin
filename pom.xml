@@ -244,6 +244,10 @@
       <name>Florin Hillebrand</name>
       <email>flozzone@gmail.com</email>
     </developer>
+    <developer>
+      <id>viceice</id>
+      <name>Michael Kriese</name>
+    </developer>
   </developers>
 
 </project>
