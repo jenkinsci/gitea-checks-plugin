@@ -37,6 +37,7 @@ import java.util.Optional;
  * Facade to {@link GiteaSCMSource} and {@link GitSCM} in Jenkins.
  * Used for finding a supported SCM of a job.
  */
+@SuppressWarnings("PMD.CouplingBetweenObjects")
 public class SCMFacade {
     /**
      * Find {@link GiteaSCMSource} (or Gitea repository) used by the {@code job}.

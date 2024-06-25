@@ -52,8 +52,10 @@ public class GiteaChecksPublisher extends ChecksPublisher {
      *                the details of a check run
      */
     @Override
+    @SuppressWarnings("PMD.CloseResource")
     public void publish(final ChecksDetails details) {
         try {
+            // TODO: close connection
             GiteaConnection giteaConnection = connect(giteaServerUrl, context.getCredentials());
 
             GiteaChecksDetails giteaDetails = new GiteaChecksDetails(details);
@@ -68,8 +70,7 @@ public class GiteaChecksPublisher extends ChecksPublisher {
                     context.getJob().getFullName(),
                     giteaDetails.getContextString(),
                     giteaDetails.getStatus()).replaceAll("[\r\n]", ""));
-        }
-        catch (IOException | InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             String message = "Failed Publishing Gitea checks: ";
             SYSTEM_LOGGER.log(Level.WARNING, (message + details).replaceAll("[\r\n]", ""), e);
             buildLogger.log(message + e);
