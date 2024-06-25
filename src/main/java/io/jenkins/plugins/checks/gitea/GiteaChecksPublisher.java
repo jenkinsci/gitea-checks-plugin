@@ -76,15 +76,15 @@ public class GiteaChecksPublisher extends ChecksPublisher {
         }
     }
 
-    private static GiteaConnection connect(String serverUrl, StandardCredentials credentials)
+    private static GiteaConnection connect(final String serverUrl, final StandardCredentials credentials)
             throws IOException, InterruptedException {
         return Gitea.server(serverUrl)
                 .as(AuthenticationTokens.convert(GiteaAuth.class, credentials))
                 .open();
     }
 
-    private GiteaCommitStatus publishGiteaCommitStatus(GiteaConnection giteaConnection,
-            GiteaChecksDetails giteaChecksDetails) throws IOException, InterruptedException {
+    private GiteaCommitStatus publishGiteaCommitStatus(final GiteaConnection giteaConnection,
+            final GiteaChecksDetails giteaChecksDetails) throws IOException, InterruptedException {
         GiteaCommitStatus commitStatus = new GiteaCommitStatus();
 
         giteaChecksDetails.getDetailsURL().ifPresent(commitStatus::setTargetUrl);

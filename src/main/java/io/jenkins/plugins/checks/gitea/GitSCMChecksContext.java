@@ -10,6 +10,7 @@ import hudson.plugins.git.Revision;
 import hudson.plugins.git.UserRemoteConfig;
 import hudson.plugins.git.util.BuildData;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -129,7 +130,7 @@ class GitSCMChecksContext extends GiteaChecksContext {
             }
 
             String[] pathParts = StringUtils.removeStart(url.getPath(), "/").split("/");
-            if (pathParts.length == 2) {
+            if (pathParts.length == NumberUtils.INTEGER_TWO) {
                 return pathParts[0] + "/" + StringUtils.removeEnd(pathParts[1], ".git");
             }
         }
