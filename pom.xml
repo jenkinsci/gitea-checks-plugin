@@ -27,7 +27,7 @@
     <gitea.version>215.v71113b_7a_4c76</gitea.version>
 
     <!-- Test Library Dependencies Versions -->
-    <wiremock.version>3.7.0</wiremock.version>
+    <wiremock.version>3.8.0</wiremock.version>
     <testcontainers.version>1.19.8</testcontainers.version>
   </properties>
 
