@@ -19,6 +19,7 @@
 
   <properties>
     <changelist>999999-SNAPSHOT</changelist>
+    <jenkins.version>2.440.3</jenkins.version>
 
     <!-- TODO: fix me -->
     <revapi.skip>true</revapi.skip>
@@ -46,7 +47,18 @@
     <tag>${scmTag}</tag>
   </scm>
 
- 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.jenkins.tools.bom</groupId>
+        <artifactId>bom-2.440.x</artifactId>
+        <version>3157.vb_3e8b_8a_d185d</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
     <!-- Jenkins Plugin Dependencies -->
 
