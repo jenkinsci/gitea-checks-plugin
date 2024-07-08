@@ -1,19 +1,17 @@
 package io.jenkins.plugins.checks.gitea;
 
-import java.io.IOException;
-import java.util.Collections;
-
-import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
-import org.jenkinsci.plugins.workflow.job.WorkflowJob;
-import org.junit.Test;
-
-import io.jenkins.plugins.checks.IntegrationTestBase;
 import static org.assertj.core.api.Assertions.*;
 
 import hudson.model.FreeStyleProject;
 import hudson.model.Run;
 import hudson.plugins.git.BranchSpec;
 import hudson.plugins.git.GitSCM;
+import io.jenkins.plugins.checks.IntegrationTestBase;
+import java.io.IOException;
+import java.util.Collections;
+import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
+import org.jenkinsci.plugins.workflow.job.WorkflowJob;
+import org.junit.Test;
 
 /**
  * Integration tests for {@link GitSCMChecksContext}.
@@ -33,11 +31,16 @@ public class GitSCMChecksContextITest extends IntegrationTestBase {
     @Test
     public void shouldRetrieveContextFromFreeStyleBuild() throws IOException {
         FreeStyleProject job = createFreeStyleProject();
-        
+
         BranchSpec branchSpec = new BranchSpec(EXISTING_HASH);
-        GitSCM scm = new GitSCM(GitSCM.createRepoList(HTTP_URL, CREDENTIALS_ID),
-                Collections.singletonList(branchSpec), false, Collections.emptyList(), 
-                null, null, Collections.emptyList());
+        GitSCM scm = new GitSCM(
+                GitSCM.createRepoList(HTTP_URL, CREDENTIALS_ID),
+                Collections.singletonList(branchSpec),
+                false,
+                Collections.emptyList(),
+                null,
+                null,
+                Collections.emptyList());
         job.setScm(scm);
 
         Run<?, ?> run = buildSuccessfully(job);
@@ -51,28 +54,31 @@ public class GitSCMChecksContextITest extends IntegrationTestBase {
 
     /**
      * Creates a pipeline that uses {@link hudson.plugins.git.GitSCM} and runs a successful build.
-     * Then this build is used to create a new {@link GitSCMChecksContext}. 
+     * Then this build is used to create a new {@link GitSCMChecksContext}.
      */
-    @Test 
+    @Test
     public void shouldRetrieveContextFromPipeline() {
         WorkflowJob job = createPipeline();
-        
-        job.setDefinition(new CpsFlowDefinition("node {\n" 
-                + "  stage ('Checkout') {\n" 
-                + "    checkout scm: ([\n"
-                + "                    $class: 'GitSCM',\n"
-                + "                    userRemoteConfigs: [[credentialsId: '" + CREDENTIALS_ID + "', url: '" + HTTP_URL + "']],\n"
-                + "                    branches: [[name: '" + EXISTING_HASH + "']]\n"
-                + "            ])"
-                + "  }\n" 
-                + "}\n", true));
-        
+
+        job.setDefinition(new CpsFlowDefinition(
+                "node {\n"
+                        + "  stage ('Checkout') {\n"
+                        + "    checkout scm: ([\n"
+                        + "                    $class: 'GitSCM',\n"
+                        + "                    userRemoteConfigs: [[credentialsId: '" + CREDENTIALS_ID + "', url: '"
+                        + HTTP_URL + "']],\n"
+                        + "                    branches: [[name: '" + EXISTING_HASH + "']]\n"
+                        + "            ])"
+                        + "  }\n"
+                        + "}\n",
+                true));
+
         Run<?, ?> run = buildSuccessfully(job);
 
         GitSCMChecksContext gitSCMChecksContext = new GitSCMChecksContext(run, URL_NAME);
 
         assertThat(gitSCMChecksContext.getRepository()).isEqualTo("jenkinsci/gitea-checks-plugin");
         assertThat(gitSCMChecksContext.getCredentialsId()).isEqualTo(CREDENTIALS_ID);
-        assertThat(gitSCMChecksContext.getHeadSha()).isEqualTo(EXISTING_HASH); 
+        assertThat(gitSCMChecksContext.getHeadSha()).isEqualTo(EXISTING_HASH);
     }
 }

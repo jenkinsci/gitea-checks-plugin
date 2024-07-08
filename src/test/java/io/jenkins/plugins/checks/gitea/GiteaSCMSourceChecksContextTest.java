@@ -1,23 +1,21 @@
 package io.jenkins.plugins.checks.gitea;
 
-import java.util.Optional;
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import com.cloudbees.plugins.credentials.common.StandardCredentials;
 import edu.hm.hafner.util.FilteredLog;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
-
+import hudson.model.Job;
+import hudson.model.Run;
+import java.util.Optional;
+import jenkins.plugins.git.AbstractGitSCMSource;
+import jenkins.scm.api.SCMHead;
+import jenkins.scm.api.SCMRevision;
 import org.jenkinsci.plugin.gitea.GiteaSCMSource;
 import org.jenkinsci.plugin.gitea.PullRequestSCMRevision;
 import org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider;
 import org.junit.jupiter.api.Test;
-import jenkins.plugins.git.AbstractGitSCMSource;
-import jenkins.scm.api.SCMHead;
-import jenkins.scm.api.SCMRevision;
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-import hudson.model.Job;
-import hudson.model.Run;
 
 class GiteaSCMSourceChecksContextTest {
     private static final String URL = "URL";
@@ -29,9 +27,9 @@ class GiteaSCMSourceChecksContextTest {
         AbstractGitSCMSource.SCMRevisionImpl revision = mock(AbstractGitSCMSource.SCMRevisionImpl.class);
         GiteaSCMSource source = mock(GiteaSCMSource.class);
 
-        assertThat(GiteaSCMSourceChecksContext.fromJob(job, URL,
-                createGiteaSCMFacadeWithRevision(job, source, head, revision, "a1b2c3"))
-                .getHeadSha())
+        assertThat(GiteaSCMSourceChecksContext.fromJob(
+                                job, URL, createGiteaSCMFacadeWithRevision(job, source, head, revision, "a1b2c3"))
+                        .getHeadSha())
                 .isEqualTo("a1b2c3");
     }
 
@@ -42,9 +40,9 @@ class GiteaSCMSourceChecksContextTest {
         PullRequestSCMRevision revision = mock(PullRequestSCMRevision.class);
         GiteaSCMSource source = mock(GiteaSCMSource.class);
 
-        assertThat(GiteaSCMSourceChecksContext.fromJob(job, URL,
-                createGiteaSCMFacadeWithRevision(job, source, head, revision, "a1b2c3"))
-                .getHeadSha())
+        assertThat(GiteaSCMSourceChecksContext.fromJob(
+                                job, URL, createGiteaSCMFacadeWithRevision(job, source, head, revision, "a1b2c3"))
+                        .getHeadSha())
                 .isEqualTo("a1b2c3");
     }
 
@@ -58,9 +56,9 @@ class GiteaSCMSourceChecksContextTest {
         when(run.getParent()).thenReturn(job);
         when(job.getLastBuild()).thenReturn(run);
 
-        assertThat(GiteaSCMSourceChecksContext.fromRun(run, URL,
-                createGiteaSCMFacadeWithRevision(run, source, revision, "a1b2c3"))
-                .getHeadSha())
+        assertThat(GiteaSCMSourceChecksContext.fromRun(
+                                run, URL, createGiteaSCMFacadeWithRevision(run, source, revision, "a1b2c3"))
+                        .getHeadSha())
                 .isEqualTo("a1b2c3");
     }
 
@@ -72,7 +70,8 @@ class GiteaSCMSourceChecksContextTest {
         when(job.getName()).thenReturn("gitea-checks-plugin");
 
         assertThatThrownBy(
-                GiteaSCMSourceChecksContext.fromJob(job, URL, createGiteaSCMFacadeWithSource(job, source))::getHeadSha)
+                        GiteaSCMSourceChecksContext.fromJob(job, URL, createGiteaSCMFacadeWithSource(job, source))
+                                ::getHeadSha)
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("No SHA found for job: gitea-checks-plugin");
     }
@@ -88,8 +87,8 @@ class GiteaSCMSourceChecksContextTest {
         when(source.getRepository()).thenReturn("gitea-checks-plugin");
         when(head.getName()).thenReturn("master");
 
-        assertThatThrownBy(GiteaSCMSourceChecksContext.fromJob(job, URL, createGiteaSCMFacadeWithRevision(job, source,
-                head, null, null))::getHeadSha)
+        assertThatThrownBy(GiteaSCMSourceChecksContext.fromJob(
+                        job, URL, createGiteaSCMFacadeWithRevision(job, source, head, null, null))::getHeadSha)
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("No SHA found for job: gitea-checks-plugin");
     }
@@ -103,8 +102,8 @@ class GiteaSCMSourceChecksContextTest {
 
         when(job.getName()).thenReturn("gitea-checks-plugin");
 
-        assertThatThrownBy(GiteaSCMSourceChecksContext.fromJob(job, URL, createGiteaSCMFacadeWithRevision(job, source,
-                head, revision, null))::getHeadSha)
+        assertThatThrownBy(GiteaSCMSourceChecksContext.fromJob(
+                        job, URL, createGiteaSCMFacadeWithRevision(job, source, head, revision, null))::getHeadSha)
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("No SHA found for job: gitea-checks-plugin");
     }
@@ -118,7 +117,7 @@ class GiteaSCMSourceChecksContextTest {
         when(source.getRepository()).thenReturn("gitea-checks-plugin");
 
         assertThat(GiteaSCMSourceChecksContext.fromJob(job, URL, createGiteaSCMFacadeWithSource(job, source))
-                .getRepository())
+                        .getRepository())
                 .isEqualTo("jenkinsci/gitea-checks-plugin");
     }
 
@@ -128,8 +127,8 @@ class GiteaSCMSourceChecksContextTest {
         when(job.getName()).thenReturn("gitea-checks-plugin");
 
         assertThatThrownBy(
-                () -> GiteaSCMSourceChecksContext.fromJob(job, URL, createGiteaSCMFacadeWithSource(job, null))
-                        .getRepository())
+                        () -> GiteaSCMSourceChecksContext.fromJob(job, URL, createGiteaSCMFacadeWithSource(job, null))
+                                .getRepository())
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("No Gitea SCM source found for job: gitea-checks-plugin");
     }
@@ -140,9 +139,9 @@ class GiteaSCMSourceChecksContextTest {
         GiteaSCMSource source = mock(GiteaSCMSource.class);
         StandardCredentials credentials = mock(StandardCredentials.class);
 
-        assertThat(GiteaSCMSourceChecksContext
-                .fromJob(job, URL, createGiteaSCMFacadeWithCredentials(job, source, credentials, "1"))
-                .getCredentials())
+        assertThat(GiteaSCMSourceChecksContext.fromJob(
+                                job, URL, createGiteaSCMFacadeWithCredentials(job, source, credentials, "1"))
+                        .getCredentials())
                 .isEqualTo(credentials);
     }
 
@@ -153,9 +152,8 @@ class GiteaSCMSourceChecksContextTest {
 
         when(job.getName()).thenReturn("gitea-checks-plugin");
 
-        assertThatThrownBy(GiteaSCMSourceChecksContext.fromJob(job, URL,
-                createGiteaSCMFacadeWithCredentials(job, source,
-                        null, null))::getCredentials)
+        assertThatThrownBy(GiteaSCMSourceChecksContext.fromJob(
+                        job, URL, createGiteaSCMFacadeWithCredentials(job, source, null, null))::getCredentials)
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("No Gitea APP credentials available for job: gitea-checks-plugin");
     }
@@ -176,7 +174,8 @@ class GiteaSCMSourceChecksContextTest {
     void shouldGetURLForJob() {
         Job job = mock(Job.class);
 
-        assertThat(GiteaSCMSourceChecksContext.fromJob(job, URL, createGiteaSCMFacadeWithSource(job, null)).getURL())
+        assertThat(GiteaSCMSourceChecksContext.fromJob(job, URL, createGiteaSCMFacadeWithSource(job, null))
+                        .getURL())
                 .isEqualTo(URL);
     }
 
@@ -186,11 +185,11 @@ class GiteaSCMSourceChecksContextTest {
         Job<?, ?> job = mock(Job.class);
         ClassicDisplayURLProvider urlProvider = mock(ClassicDisplayURLProvider.class);
 
-        when(urlProvider.getRunURL(run))
-                .thenReturn("http://127.0.0.1:8080/job/gitea-checks-plugin/job/master/200");
+        when(urlProvider.getRunURL(run)).thenReturn("http://127.0.0.1:8080/job/gitea-checks-plugin/job/master/200");
 
-        assertThat(GiteaSCMSourceChecksContext.fromRun(run, urlProvider.getRunURL(run),
-                createGiteaSCMFacadeWithSource(job, null)).getURL())
+        assertThat(GiteaSCMSourceChecksContext.fromRun(
+                                run, urlProvider.getRunURL(run), createGiteaSCMFacadeWithSource(job, null))
+                        .getURL())
                 .isEqualTo("http://127.0.0.1:8080/job/gitea-checks-plugin/job/master/200");
     }
 
@@ -201,7 +200,7 @@ class GiteaSCMSourceChecksContextTest {
         FilteredLog logger = new FilteredLog("");
 
         assertThat(GiteaSCMSourceChecksContext.fromJob(job, URL, createGiteaSCMFacadeWithSource(job, source))
-                .isValid(logger))
+                        .isValid(logger))
                 .isFalse();
         assertThat(logger.getErrorMessages()).contains("No credentials found");
     }
@@ -215,7 +214,7 @@ class GiteaSCMSourceChecksContextTest {
         when(source.getCredentialsId()).thenReturn("oauth-credentials");
 
         assertThat(GiteaSCMSourceChecksContext.fromJob(job, URL, createGiteaSCMFacadeWithSource(job, source))
-                .isValid(logger))
+                        .isValid(logger))
                 .isFalse();
         assertThat(logger.getErrorMessages())
                 .contains("No Gitea app credentials found: 'oauth-credentials'")
@@ -235,14 +234,18 @@ class GiteaSCMSourceChecksContextTest {
         when(source.getRepoOwner()).thenReturn("jenkinsci");
         when(source.getRepository()).thenReturn("gitea-checks");
 
-        assertThat(GiteaSCMSourceChecksContext.fromRun(run, URL, createGiteaSCMFacadeWithCredentials(job, source,
-                credentials, "1")).isValid(logger))
+        assertThat(GiteaSCMSourceChecksContext.fromRun(
+                                run, URL, createGiteaSCMFacadeWithCredentials(job, source, credentials, "1"))
+                        .isValid(logger))
                 .isFalse();
         assertThat(logger.getErrorMessages()).contains("No HEAD SHA found for jenkinsci/gitea-checks");
     }
 
-    private SCMFacade createGiteaSCMFacadeWithRevision(final Job<?, ?> job, final GiteaSCMSource source,
-            final SCMHead head, final SCMRevision revision,
+    private SCMFacade createGiteaSCMFacadeWithRevision(
+            final Job<?, ?> job,
+            final GiteaSCMSource source,
+            final SCMHead head,
+            final SCMRevision revision,
             final String hash) {
         SCMFacade facade = createGiteaSCMFacadeWithSource(job, source);
 
@@ -253,8 +256,11 @@ class GiteaSCMSourceChecksContextTest {
         return facade;
     }
 
-    private SCMFacade createGiteaSCMFacadeWithRevision(final Run<?, ?> run, final GiteaSCMSource source,
-            @CheckForNull final SCMRevision revision, @CheckForNull final String hash) {
+    private SCMFacade createGiteaSCMFacadeWithRevision(
+            final Run<?, ?> run,
+            final GiteaSCMSource source,
+            @CheckForNull final SCMRevision revision,
+            @CheckForNull final String hash) {
         SCMFacade facade = createGiteaSCMFacadeWithSource(run.getParent(), source);
 
         when(facade.findRevision(source, run)).thenReturn(Optional.of(revision));
@@ -263,7 +269,9 @@ class GiteaSCMSourceChecksContextTest {
         return facade;
     }
 
-    private SCMFacade createGiteaSCMFacadeWithCredentials(final Job<?, ?> job, final GiteaSCMSource source,
+    private SCMFacade createGiteaSCMFacadeWithCredentials(
+            final Job<?, ?> job,
+            final GiteaSCMSource source,
             @CheckForNull final StandardCredentials credentials,
             final String credentialsId) {
         SCMFacade facade = createGiteaSCMFacadeWithSource(job, source);

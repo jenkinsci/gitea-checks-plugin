@@ -5,8 +5,8 @@ import edu.hm.hafner.util.FilteredLog;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import hudson.model.Job;
 import hudson.model.Run;
-import org.apache.commons.lang3.StringUtils;
 import java.util.Optional;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Base class for a context that publishes Gitea checks.
@@ -97,12 +97,14 @@ public abstract class GiteaChecksContext {
     }
 
     protected StandardCredentials getGiteaAppCredentials(final String credentialsId) {
-        return findGiteaAppCredentials(credentialsId).orElseThrow(() ->
-                new IllegalStateException("No Gitea APP credentials available for job: " + getJob().getName()));
+        return findGiteaAppCredentials(credentialsId)
+                .orElseThrow(() ->
+                        new IllegalStateException("No Gitea APP credentials available for job: " + getJob().getName()));
     }
 
     protected boolean hasGiteaAppCredentials() {
-        return findGiteaAppCredentials(StringUtils.defaultIfEmpty(getCredentialsId(), "")).isPresent();
+        return findGiteaAppCredentials(StringUtils.defaultIfEmpty(getCredentialsId(), ""))
+                .isPresent();
     }
 
     protected boolean hasCredentialsId() {

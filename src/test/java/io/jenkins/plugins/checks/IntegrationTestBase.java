@@ -1,9 +1,8 @@
 package io.jenkins.plugins.checks;
 
+import io.jenkins.plugins.util.IntegrationTest;
 import org.junit.Rule;
 import org.jvnet.hudson.test.JenkinsRule;
-
-import io.jenkins.plugins.util.IntegrationTest;
 
 /**
  * Base class for integration tests.

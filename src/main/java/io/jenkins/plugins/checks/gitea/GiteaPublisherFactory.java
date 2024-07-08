@@ -9,9 +9,8 @@ import hudson.model.TaskListener;
 import io.jenkins.plugins.checks.api.ChecksPublisher;
 import io.jenkins.plugins.checks.api.ChecksPublisherFactory;
 import io.jenkins.plugins.util.PluginLogger;
-import org.jenkinsci.plugins.displayurlapi.DisplayURLProvider;
-
 import java.util.Optional;
+import org.jenkinsci.plugins.displayurlapi.DisplayURLProvider;
 
 /**
  * An factory which produces {@link GiteaChecksPublisher}.
@@ -39,16 +38,20 @@ public class GiteaPublisherFactory extends ChecksPublisherFactory {
     @Override
     protected Optional<ChecksPublisher> createPublisher(final Run<?, ?> run, final TaskListener listener) {
         final String runURL = urlProvider.getRunURL(run);
-        return createPublisher(listener, GiteaSCMSourceChecksContext.fromRun(run, runURL, scmFacade),
+        return createPublisher(
+                listener,
+                GiteaSCMSourceChecksContext.fromRun(run, runURL, scmFacade),
                 new GitSCMChecksContext(run, runURL, scmFacade));
     }
 
     @Override
     protected Optional<ChecksPublisher> createPublisher(final Job<?, ?> job, final TaskListener listener) {
-        return createPublisher(listener, GiteaSCMSourceChecksContext.fromJob(job, urlProvider.getJobURL(job), scmFacade));
+        return createPublisher(
+                listener, GiteaSCMSourceChecksContext.fromJob(job, urlProvider.getJobURL(job), scmFacade));
     }
 
-    private Optional<ChecksPublisher> createPublisher(final TaskListener listener, final GiteaChecksContext... contexts) {
+    private Optional<ChecksPublisher> createPublisher(
+            final TaskListener listener, final GiteaChecksContext... contexts) {
         FilteredLog causeLogger = new FilteredLog("Causes for no suitable publisher found: ");
         PluginLogger consoleLogger = new PluginLogger(listener.getLogger(), "Gitea Checks");
 
