@@ -9,13 +9,12 @@ import hudson.plugins.git.GitSCM;
 import hudson.plugins.git.Revision;
 import hudson.plugins.git.UserRemoteConfig;
 import hudson.plugins.git.util.BuildData;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * Provides a {@link GiteaChecksContext} for a Jenkins job that uses a supported
@@ -54,8 +53,7 @@ class GitSCMChecksContext extends GiteaChecksContext {
                 return head;
             }
             return getLastBuiltRevisionFromBuildData();
-        }
-        catch (IOException | InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             // ignore and return a default
         }
         return StringUtils.EMPTY;
@@ -100,14 +98,14 @@ class GitSCMChecksContext extends GiteaChecksContext {
     public String getGiteaServerUrl() {
         String repoUrl = getUserRemoteConfig().getUrl();
         if (repoUrl == null) {
-            throw new IllegalStateException("Repository URL is null for " + getUserRemoteConfig().getName());
+            throw new IllegalStateException(
+                    "Repository URL is null for " + getUserRemoteConfig().getName());
         }
 
         URL url;
         try {
             url = new URL(repoUrl);
-        }
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             return StringUtils.EMPTY;
         }
 
@@ -124,8 +122,7 @@ class GitSCMChecksContext extends GiteaChecksContext {
             URL url;
             try {
                 url = new URL(repositoryUrl);
-            }
-            catch (MalformedURLException e) {
+            } catch (MalformedURLException e) {
                 return StringUtils.EMPTY;
             }
 
@@ -133,8 +130,7 @@ class GitSCMChecksContext extends GiteaChecksContext {
             if (pathParts.length == NumberUtils.INTEGER_TWO) {
                 return pathParts[0] + "/" + StringUtils.removeEnd(pathParts[1], ".git");
             }
-        }
-        else if (repositoryUrl.matches("git@.+:.+\\/.+")) {
+        } else if (repositoryUrl.matches("git@.+:.+\\/.+")) {
             return StringUtils.removeEnd(repositoryUrl.split(":")[1], ".git");
         }
 

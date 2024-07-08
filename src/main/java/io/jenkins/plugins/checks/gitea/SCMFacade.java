@@ -12,6 +12,11 @@ import hudson.plugins.git.UserRemoteConfig;
 import hudson.scm.NullSCM;
 import hudson.scm.SCM;
 import hudson.security.ACL;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import jenkins.authentication.tokens.api.AuthenticationTokens;
 import jenkins.plugins.git.AbstractGitSCMSource;
 import jenkins.plugins.git.GitSCMSource;
@@ -26,12 +31,6 @@ import org.jenkinsci.plugin.gitea.client.api.GiteaAuth;
 import org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition;
 import org.jenkinsci.plugins.workflow.flow.FlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Facade to {@link GiteaSCMSource} and {@link GitSCM} in Jenkins.
@@ -90,7 +89,7 @@ public class SCMFacade {
 
     /**
      * Finds the {@link GitSCM} used by the {@code job}.
-     * 
+     *
      * @param job
      *            the job to get the SCM from
      * @return the found GitSCM or empty
@@ -130,11 +129,9 @@ public class SCMFacade {
     public Optional<StandardCredentials> findGiteaAppCredentials(final Job<?, ?> job, final String credentialsId) {
         StandardCredentials credential = CredentialsMatchers.firstOrNull(
                 CredentialsProvider.lookupCredentials(
-                        StandardCredentials.class, job, ACL.SYSTEM,
-                        Collections.emptyList()),
+                        StandardCredentials.class, job, ACL.SYSTEM, Collections.emptyList()),
                 CredentialsMatchers.allOf(
-                        AuthenticationTokens.matcher(GiteaAuth.class),
-                        CredentialsMatchers.withId(credentialsId)));
+                        AuthenticationTokens.matcher(GiteaAuth.class), CredentialsMatchers.withId(credentialsId)));
 
         return Optional.ofNullable(credential);
     }
@@ -164,10 +161,12 @@ public class SCMFacade {
     public Optional<SCMRevision> findRevision(final SCMSource source, final SCMHead head) {
         try {
             return Optional.ofNullable(source.fetch(head, null));
-        }
-        catch (IOException | InterruptedException e) {
-            throw new IllegalStateException(String.format("Could not fetch revision from repository: %s and branch: %s",
-                    source.getId(), head.getName()), e);
+        } catch (IOException | InterruptedException e) {
+            throw new IllegalStateException(
+                    String.format(
+                            "Could not fetch revision from repository: %s and branch: %s",
+                            source.getId(), head.getName()),
+                    e);
         }
     }
 
@@ -196,11 +195,9 @@ public class SCMFacade {
     public Optional<String> findHash(final SCMRevision revision) {
         if (revision instanceof AbstractGitSCMSource.SCMRevisionImpl) {
             return Optional.of(((AbstractGitSCMSource.SCMRevisionImpl) revision).getHash());
-        }
-        else if (revision instanceof PullRequestSCMRevision) {
+        } else if (revision instanceof PullRequestSCMRevision) {
             return Optional.of(((PullRequestSCMRevision) revision).getOrigin().getHash());
-        }
-        else {
+        } else {
             return Optional.empty();
         }
     }
@@ -230,8 +227,7 @@ public class SCMFacade {
     public SCM getScm(final Job<?, ?> job) {
         if (job instanceof AbstractProject) {
             return extractFromProject((AbstractProject<?, ?>) job);
-        }
-        else if (job instanceof SCMTriggerItem) {
+        } else if (job instanceof SCMTriggerItem) {
             return extractFromPipeline(job);
         }
         return new NullSCM();

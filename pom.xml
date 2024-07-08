@@ -17,6 +17,38 @@
   <name>Gitea Checks plugin</name>
   <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
 
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://opensource.org/licenses/mit</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>xiongkezhi</id>
+      <name>Kezhi Xiong</name>
+      <email>august.xkz@gmail.com</email>
+    </developer>
+    <developer>
+      <id>flozzone</id>
+      <name>Florin Hillebrand</name>
+      <email>flozzone@gmail.com</email>
+    </developer>
+    <developer>
+      <id>viceice</id>
+      <name>Michael Kriese</name>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:https://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
+    <tag>${scmTag}</tag>
+    <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
+  </scm>
+
   <properties>
     <changelist>999999-SNAPSHOT</changelist>
     <jenkins.version>2.440.3</jenkins.version>
@@ -30,22 +62,10 @@
     <!-- Test Library Dependencies Versions -->
     <wiremock.version>3.8.0</wiremock.version>
     <testcontainers.version>1.19.8</testcontainers.version>
+
+    <spotless.check.skip>false</spotless.check.skip>
+    <checkstyle.skip>true</checkstyle.skip>
   </properties>
-
-  <licenses>
-    <license>
-      <name>MIT License</name>
-      <url>https://opensource.org/licenses/mit</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-
-  <scm>
-    <connection>scm:git:https://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
-    <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
-    <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
-    <tag>${scmTag}</tag>
-  </scm>
 
   <dependencyManagement>
     <dependencies>
@@ -60,6 +80,11 @@
   </dependencyManagement>
 
   <dependencies>
+
+    <dependency>
+      <groupId>io.jenkins.plugins</groupId>
+      <artifactId>checks-api</artifactId>
+    </dependency>
     <!-- Jenkins Plugin Dependencies -->
 
     <dependency>
@@ -68,8 +93,8 @@
     </dependency>
 
     <dependency>
-      <groupId>io.jenkins.plugins</groupId>
-      <artifactId>checks-api</artifactId>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>credentials</artifactId>
     </dependency>
 
     <dependency>
@@ -88,11 +113,6 @@
       <artifactId>workflow-job</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>org.jenkins-ci.plugins</groupId>
-      <artifactId>credentials</artifactId>
-    </dependency>
-
     <!-- Test Dependencies -->
 
     <dependency>
@@ -101,7 +121,7 @@
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>ssh-credentials</artifactId>
@@ -154,6 +174,19 @@
 
   </dependencies>
 
+  <repositories>
+    <repository>
+      <id>repo.jenkins-ci.org</id>
+      <url>https://repo.jenkins-ci.org/public/</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>repo.jenkins-ci.org</id>
+      <url>https://repo.jenkins-ci.org/public/</url>
+    </pluginRepository>
+  </pluginRepositories>
+
   <build>
     <plugins>
       <plugin>
@@ -168,35 +201,5 @@
       </plugin>
     </plugins>
   </build>
-
-  <repositories>
-    <repository>
-      <id>repo.jenkins-ci.org</id>
-      <url>https://repo.jenkins-ci.org/public/</url>
-    </repository>
-  </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>repo.jenkins-ci.org</id>
-      <url>https://repo.jenkins-ci.org/public/</url>
-    </pluginRepository>
-  </pluginRepositories>
-
-  <developers>
-    <developer>
-      <id>xiongkezhi</id>
-      <name>Kezhi Xiong</name>
-      <email>august.xkz@gmail.com</email>
-    </developer>
-    <developer>
-      <id>flozzone</id>
-      <name>Florin Hillebrand</name>
-      <email>flozzone@gmail.com</email>
-    </developer>
-    <developer>
-      <id>viceice</id>
-      <name>Michael Kriese</name>
-    </developer>
-  </developers>
 
 </project>

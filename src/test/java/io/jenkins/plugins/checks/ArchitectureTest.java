@@ -4,9 +4,7 @@ import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
-
 import edu.hm.hafner.util.ArchitectureRules;
-
 import io.jenkins.plugins.util.PluginArchitectureRules;
 
 /**
@@ -15,7 +13,9 @@ import io.jenkins.plugins.util.PluginArchitectureRules;
  * @author Ullrich Hafner
  */
 @SuppressWarnings("hideutilityclassconstructor")
-@AnalyzeClasses(packages = "io.jenkins.plugins..", importOptions = {ImportOption.DoNotIncludeTests.class, ImportOption.DoNotIncludeJars.class})
+@AnalyzeClasses(
+        packages = "io.jenkins.plugins..",
+        importOptions = {ImportOption.DoNotIncludeTests.class, ImportOption.DoNotIncludeJars.class})
 class ArchitectureTest {
     @ArchTest
     static final ArchRule NO_JENKINS_INSTANCE_CALL = PluginArchitectureRules.NO_JENKINS_INSTANCE_CALL;

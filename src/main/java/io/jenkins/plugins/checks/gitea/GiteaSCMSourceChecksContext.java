@@ -4,12 +4,11 @@ import edu.hm.hafner.util.FilteredLog;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import hudson.model.Job;
 import hudson.model.Run;
+import java.util.Optional;
 import jenkins.scm.api.SCMHead;
 import jenkins.scm.api.SCMRevision;
 import org.apache.commons.lang3.StringUtils;
 import org.jenkinsci.plugin.gitea.GiteaSCMSource;
-
-import java.util.Optional;
 
 /**
  * Provides a {@link GiteaChecksContext} for a Jenkins job that uses a supported {@link GiteaSCMSource}.
@@ -17,6 +16,7 @@ import java.util.Optional;
 final class GiteaSCMSourceChecksContext extends GiteaChecksContext {
     @CheckForNull
     private final String sha;
+
     @CheckForNull
     private final Run<?, ?> run;
 
@@ -40,7 +40,8 @@ final class GiteaSCMSourceChecksContext extends GiteaChecksContext {
      * @param scmFacade
      *         a facade for Jenkins SCM
      */
-    private GiteaSCMSourceChecksContext(final Job<?, ?> job, @CheckForNull final Run<?, ?> run, final String runURL, final SCMFacade scmFacade) {
+    private GiteaSCMSourceChecksContext(
+            final Job<?, ?> job, @CheckForNull final Run<?, ?> run, final String runURL, final SCMFacade scmFacade) {
         super(job, runURL, scmFacade);
         this.run = run;
         this.sha = Optional.ofNullable(run).map(this::resolveHeadSha).orElse(resolveHeadSha(job));
@@ -60,8 +61,7 @@ final class GiteaSCMSourceChecksContext extends GiteaChecksContext {
         GiteaSCMSource source = resolveSource();
         if (source == null) {
             throw new IllegalStateException("No Gitea SCM source found for job: " + getJob().getName());
-        }
-        else {
+        } else {
             return source.getRepoOwner();
         }
     }
@@ -71,16 +71,17 @@ final class GiteaSCMSourceChecksContext extends GiteaChecksContext {
         GiteaSCMSource source = resolveSource();
         if (source == null) {
             throw new IllegalStateException("No Gitea SCM source found for job: " + getJob().getName());
-        }
-        else {
+        } else {
             return source.getRepository();
         }
     }
 
     @Override
     public String getGiteaServerUrl() {
-        GiteaSCMSource giteaSCMSource = getScmFacade().findGiteaSCMSource(getJob()).orElseThrow(() ->
-                new IllegalArgumentException("Couldn't get GiteaSCMSource from job: " + getJob().getName()));
+        GiteaSCMSource giteaSCMSource = getScmFacade()
+                .findGiteaSCMSource(getJob())
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Couldn't get GiteaSCMSource from job: " + getJob().getName()));
         return giteaSCMSource.getServerUrl();
     }
 
@@ -89,8 +90,7 @@ final class GiteaSCMSourceChecksContext extends GiteaChecksContext {
         GiteaSCMSource source = resolveSource();
         if (source == null) {
             throw new IllegalStateException("No Gitea SCM source found for job: " + getJob().getName());
-        }
-        else {
+        } else {
             return source.getRepoOwner() + "/" + source.getRepository();
         }
     }

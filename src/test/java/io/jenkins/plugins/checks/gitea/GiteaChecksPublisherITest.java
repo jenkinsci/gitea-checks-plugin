@@ -1,40 +1,16 @@
 package io.jenkins.plugins.checks.gitea;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.logging.Level;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
 import com.cloudbees.plugins.credentials.common.StandardCredentials;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import edu.umd.cs.findbugs.annotations.CheckForNull;
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
 import hudson.model.Queue;
-import io.jenkins.plugins.util.PluginLogger;
-import jenkins.model.ParameterizedJobMixIn;
-import org.jenkinsci.plugin.gitea.GiteaSCMSource;
-import org.jenkinsci.plugin.gitea.PullRequestSCMRevision;
-import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
-import org.jenkinsci.plugins.workflow.job.WorkflowJob;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.jvnet.hudson.test.Issue;
-import org.jvnet.hudson.test.LoggerRule;
-
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
-
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-
-import org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider;
-
 import hudson.model.Run;
-import jenkins.scm.api.SCMHead;
 import io.jenkins.plugins.checks.IntegrationTestBase;
 import io.jenkins.plugins.checks.api.ChecksAction;
 import io.jenkins.plugins.checks.api.ChecksAnnotation.ChecksAnnotationBuilder;
@@ -45,17 +21,41 @@ import io.jenkins.plugins.checks.api.ChecksDetails.ChecksDetailsBuilder;
 import io.jenkins.plugins.checks.api.ChecksImage;
 import io.jenkins.plugins.checks.api.ChecksOutput.ChecksOutputBuilder;
 import io.jenkins.plugins.checks.api.ChecksStatus;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import io.jenkins.plugins.util.PluginLogger;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.logging.Level;
+import jenkins.model.ParameterizedJobMixIn;
+import jenkins.scm.api.SCMHead;
+import org.jenkinsci.plugin.gitea.GiteaSCMSource;
+import org.jenkinsci.plugin.gitea.PullRequestSCMRevision;
+import org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider;
+import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
+import org.jenkinsci.plugins.workflow.job.WorkflowJob;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.jvnet.hudson.test.Issue;
+import org.jvnet.hudson.test.LoggerRule;
 
 /**
  * Tests if the {@link GiteaChecksPublisher} actually sends out the requests to
  * Gitea in order to publish the check runs.
  */
 @RunWith(Parameterized.class)
-@SuppressWarnings({ "PMD.ExcessiveImports", "checkstyle:ClassDataAbstractionCoupling", "rawtypes",
-        "checkstyle:ClassFanOutComplexity", "checkstyle:JavaNCSS" })
+@SuppressWarnings({
+    "PMD.ExcessiveImports",
+    "checkstyle:ClassDataAbstractionCoupling",
+    "rawtypes",
+    "checkstyle:ClassFanOutComplexity",
+    "checkstyle:JavaNCSS"
+})
 public class GiteaChecksPublisherITest extends IntegrationTestBase {
     /**
      * Provides parameters for tests.
@@ -64,11 +64,31 @@ public class GiteaChecksPublisherITest extends IntegrationTestBase {
     @Parameterized.Parameters(name = "{0}")
     @SuppressWarnings("PMD.UnnecessaryVarargsArrayCreation") // TODO: fix me?
     public static Collection<Object[]> contextBuilders() {
-        return Arrays.asList(new Object[][]{
-                {"Freestyle (run)", (Function<GiteaChecksPublisherITest, GiteaChecksContext>) GiteaChecksPublisherITest::createGiteaChecksContextWithGiteaSCMFreestyle, false},
-                {"Freestyle (job)", (Function<GiteaChecksPublisherITest, GiteaChecksContext>) GiteaChecksPublisherITest::createGiteaChecksContextWithGiteaSCMFreestyle, true},
-                {"Pipeline (run)", (Function<GiteaChecksPublisherITest, GiteaChecksContext>) GiteaChecksPublisherITest::createGiteaChecksContextWithGiteaSCMFromPipeline, false},
-                {"Pipeline (job)", (Function<GiteaChecksPublisherITest, GiteaChecksContext>) GiteaChecksPublisherITest::createGiteaChecksContextWithGiteaSCMFromPipeline, true}
+        return Arrays.asList(new Object[][] {
+            {
+                "Freestyle (run)",
+                (Function<GiteaChecksPublisherITest, GiteaChecksContext>)
+                        GiteaChecksPublisherITest::createGiteaChecksContextWithGiteaSCMFreestyle,
+                false
+            },
+            {
+                "Freestyle (job)",
+                (Function<GiteaChecksPublisherITest, GiteaChecksContext>)
+                        GiteaChecksPublisherITest::createGiteaChecksContextWithGiteaSCMFreestyle,
+                true
+            },
+            {
+                "Pipeline (run)",
+                (Function<GiteaChecksPublisherITest, GiteaChecksContext>)
+                        GiteaChecksPublisherITest::createGiteaChecksContextWithGiteaSCMFromPipeline,
+                false
+            },
+            {
+                "Pipeline (job)",
+                (Function<GiteaChecksPublisherITest, GiteaChecksContext>)
+                        GiteaChecksPublisherITest::createGiteaChecksContextWithGiteaSCMFromPipeline,
+                true
+            }
         });
     }
 
@@ -105,8 +125,8 @@ public class GiteaChecksPublisherITest extends IntegrationTestBase {
      * A rule which provides a mock server.
      */
     @Rule
-    public WireMockRule wireMockRule = new WireMockRule(
-            WireMockConfiguration.options().dynamicPort());
+    public WireMockRule wireMockRule =
+            new WireMockRule(WireMockConfiguration.options().dynamicPort());
 
     /**
      * Checks should be published to Gitea correctly when Gitea SCM is found and parameters are correctly set.
@@ -145,18 +165,18 @@ public class GiteaChecksPublisherITest extends IntegrationTestBase {
                                         .withTitle("Hello Gitea Checks API")
                                         .withRawDetails("a simple echo command")
                                         .build()))
-                        .withImages(Collections.singletonList(
-                                new ChecksImage("Jenkins",
-                                        "https://ci.jenkins.io/static/cd5757a8/images/jenkins-header-logo-v2.svg",
-                                        "Jenkins Symbol")))
+                        .withImages(Collections.singletonList(new ChecksImage(
+                                "Jenkins",
+                                "https://ci.jenkins.io/static/cd5757a8/images/jenkins-header-logo-v2.svg",
+                                "Jenkins Symbol")))
                         .build())
-                .withActions(Collections.singletonList(
-                        new ChecksAction("re-run", "re-run Jenkins build", "#0")))
+                .withActions(Collections.singletonList(new ChecksAction("re-run", "re-run Jenkins build", "#0")))
                 .build();
 
-        new GiteaChecksPublisher(contextBuilder.apply(this),
-                new PluginLogger(getJenkins().createTaskListener().getLogger(), "Gitea Checks"),
-                wireMockRule.baseUrl())
+        new GiteaChecksPublisher(
+                        contextBuilder.apply(this),
+                        new PluginLogger(getJenkins().createTaskListener().getLogger(), "Gitea Checks"),
+                        wireMockRule.baseUrl())
                 .publish(details);
     }
 
@@ -175,22 +195,22 @@ public class GiteaChecksPublisherITest extends IntegrationTestBase {
                 .withOutput(new ChecksOutputBuilder()
                         .withTitle("Jenkins Check")
                         .withSummary("# A Successful Build")
-                        .withAnnotations(Collections.singletonList(
-                                new ChecksAnnotationBuilder()
-                                        .withPath("Jenkinsfile")
-                                        .withStartLine(1)
-                                        .withEndLine(2)
-                                        .withStartColumn(0)
-                                        .withEndColumn(20)
-                                        .withAnnotationLevel(ChecksAnnotationLevel.WARNING)
-                                        .withMessage("say hello to Jenkins")
-                                        .build()))
+                        .withAnnotations(Collections.singletonList(new ChecksAnnotationBuilder()
+                                .withPath("Jenkinsfile")
+                                .withStartLine(1)
+                                .withEndLine(2)
+                                .withStartColumn(0)
+                                .withEndColumn(20)
+                                .withAnnotationLevel(ChecksAnnotationLevel.WARNING)
+                                .withMessage("say hello to Jenkins")
+                                .build()))
                         .build())
                 .build();
 
-        new GiteaChecksPublisher(contextBuilder.apply(this),
-                new PluginLogger(getJenkins().createTaskListener().getLogger(), "Gitea Checks"),
-                wireMockRule.baseUrl())
+        new GiteaChecksPublisher(
+                        contextBuilder.apply(this),
+                        new PluginLogger(getJenkins().createTaskListener().getLogger(), "Gitea Checks"),
+                        wireMockRule.baseUrl())
                 .publish(details);
 
         assertThat(loggerRule.getRecords().size()).isEqualTo(1);
@@ -235,7 +255,7 @@ public class GiteaChecksPublisherITest extends IntegrationTestBase {
         when(source.getCredentialsId()).thenReturn("1");
         when(source.getRepoOwner()).thenReturn("XiongKezhi");
         when(source.getRepository()).thenReturn("Sandbox");
-        //when(credentials.getId()).thenReturn(Secret.fromString("password"));
+        // when(credentials.getId()).thenReturn(Secret.fromString("password"));
 
         when(scmFacade.findGiteaSCMSource(job)).thenReturn(Optional.of(source));
         when(scmFacade.findGiteaAppCredentials(job, "1")).thenReturn(Optional.of(credentials));

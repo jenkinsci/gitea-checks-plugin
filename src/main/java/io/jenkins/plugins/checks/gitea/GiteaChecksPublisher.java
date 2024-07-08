@@ -1,20 +1,19 @@
 package io.jenkins.plugins.checks.gitea;
 
+import static java.lang.String.format;
+
 import com.cloudbees.plugins.credentials.common.StandardCredentials;
 import io.jenkins.plugins.checks.api.ChecksDetails;
 import io.jenkins.plugins.checks.api.ChecksPublisher;
 import io.jenkins.plugins.util.PluginLogger;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jenkins.authentication.tokens.api.AuthenticationTokens;
 import org.jenkinsci.plugin.gitea.client.api.Gitea;
 import org.jenkinsci.plugin.gitea.client.api.GiteaAuth;
 import org.jenkinsci.plugin.gitea.client.api.GiteaCommitStatus;
 import org.jenkinsci.plugin.gitea.client.api.GiteaConnection;
-
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import static java.lang.String.format;
 
 /**
  * A publisher which publishes Gitea check runs.
@@ -36,8 +35,8 @@ public class GiteaChecksPublisher extends ChecksPublisher {
         this(context, buildLogger, context.getGiteaServerUrl());
     }
 
-    GiteaChecksPublisher(final GiteaChecksContext context, final PluginLogger buildLogger,
-            final String giteaServerUrl) {
+    GiteaChecksPublisher(
+            final GiteaChecksContext context, final PluginLogger buildLogger, final String giteaServerUrl) {
         super();
 
         this.context = context;
@@ -61,17 +60,18 @@ public class GiteaChecksPublisher extends ChecksPublisher {
             GiteaChecksDetails giteaDetails = new GiteaChecksDetails(details);
             publishGiteaCommitStatus(giteaConnection, giteaDetails);
 
-            buildLogger.log("Gitea check (name: %s, status: %s, description: %s) has been published.",
-                    giteaDetails.getContextString(),
-                    giteaDetails.getStatus(), giteaDetails.getDescription());
-            SYSTEM_LOGGER.fine(format("Published check for repo: %s, sha: %s, job name: %s, name: %s, status: %s",
-                    context.getRepository(),
-                    context.getHeadSha(),
-                    context.getJob().getFullName(),
-                    giteaDetails.getContextString(),
-                    giteaDetails.getStatus()).replaceAll("[\r\n]", ""));
-        }
-        catch (IOException | InterruptedException e) {
+            buildLogger.log(
+                    "Gitea check (name: %s, status: %s, description: %s) has been published.",
+                    giteaDetails.getContextString(), giteaDetails.getStatus(), giteaDetails.getDescription());
+            SYSTEM_LOGGER.fine(format(
+                            "Published check for repo: %s, sha: %s, job name: %s, name: %s, status: %s",
+                            context.getRepository(),
+                            context.getHeadSha(),
+                            context.getJob().getFullName(),
+                            giteaDetails.getContextString(),
+                            giteaDetails.getStatus())
+                    .replaceAll("[\r\n]", ""));
+        } catch (IOException | InterruptedException e) {
             String message = "Failed Publishing Gitea checks: ";
             SYSTEM_LOGGER.log(Level.WARNING, (message + details).replaceAll("[\r\n]", ""), e);
             buildLogger.log(message + e);
@@ -85,8 +85,9 @@ public class GiteaChecksPublisher extends ChecksPublisher {
                 .open();
     }
 
-    private GiteaCommitStatus publishGiteaCommitStatus(final GiteaConnection giteaConnection,
-            final GiteaChecksDetails giteaChecksDetails) throws IOException, InterruptedException {
+    private GiteaCommitStatus publishGiteaCommitStatus(
+            final GiteaConnection giteaConnection, final GiteaChecksDetails giteaChecksDetails)
+            throws IOException, InterruptedException {
         GiteaCommitStatus commitStatus = new GiteaCommitStatus();
 
         giteaChecksDetails.getDetailsURL().ifPresent(commitStatus::setTargetUrl);
@@ -98,9 +99,6 @@ public class GiteaChecksPublisher extends ChecksPublisher {
         commitStatus.setState(giteaChecksDetails.getStatus());
 
         return giteaConnection.createCommitStatus(
-                context.getRepoOwner(),
-                context.getRepo(),
-                context.getHeadSha(),
-                commitStatus);
+                context.getRepoOwner(), context.getRepo(), context.getHeadSha(), commitStatus);
     }
 }
