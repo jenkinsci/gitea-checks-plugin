@@ -105,7 +105,6 @@ public class GiteaChecksPublisherITest extends IntegrationTestBase {
      */
     @SuppressWarnings("checkstyle:VisibilityModifier")
     @Parameterized.Parameter(1)
-    @CheckForNull
     public Function<GiteaChecksPublisherITest, GiteaChecksContext> contextBuilder;
 
     /**
