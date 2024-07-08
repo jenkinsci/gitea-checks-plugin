@@ -22,7 +22,7 @@ class GiteaSCMSourceChecksContextTest {
 
     @Test
     void shouldGetHeadShaFromMasterBranch() {
-        Job job = mock(Job.class);
+        var job = mock(Job.class);
         SCMHead head = mock(SCMHead.class);
         AbstractGitSCMSource.SCMRevisionImpl revision = mock(AbstractGitSCMSource.SCMRevisionImpl.class);
         GiteaSCMSource source = mock(GiteaSCMSource.class);
@@ -35,7 +35,7 @@ class GiteaSCMSourceChecksContextTest {
 
     @Test
     void shouldGetHeadShaFromPullRequest() {
-        Job job = mock(Job.class);
+        var job = mock(Job.class);
         SCMHead head = mock(SCMHead.class);
         PullRequestSCMRevision revision = mock(PullRequestSCMRevision.class);
         GiteaSCMSource source = mock(GiteaSCMSource.class);
@@ -48,8 +48,8 @@ class GiteaSCMSourceChecksContextTest {
 
     @Test
     void shouldGetHeadShaFromRun() {
-        Job job = mock(Job.class);
-        Run run = mock(Run.class);
+        var job = mock(Job.class);
+        var run = mock(Run.class);
         PullRequestSCMRevision revision = mock(PullRequestSCMRevision.class);
         GiteaSCMSource source = mock(GiteaSCMSource.class);
 
@@ -64,7 +64,7 @@ class GiteaSCMSourceChecksContextTest {
 
     @Test
     void shouldThrowIllegalStateExceptionWhenGetHeadShaButNoSCMHeadAvailable() {
-        Job job = mock(Job.class);
+        var job = mock(Job.class);
         GiteaSCMSource source = mock(GiteaSCMSource.class);
 
         when(job.getName()).thenReturn("gitea-checks-plugin");
@@ -78,7 +78,7 @@ class GiteaSCMSourceChecksContextTest {
 
     @Test
     void shouldThrowIllegalStateExceptionWhenGetHeadShaButNoSCMRevisionAvailable() {
-        Job job = mock(Job.class);
+        var job = mock(Job.class);
         SCMHead head = mock(SCMHead.class);
         GiteaSCMSource source = mock(GiteaSCMSource.class);
 
@@ -95,7 +95,7 @@ class GiteaSCMSourceChecksContextTest {
 
     @Test
     void shouldThrowIllegalStateExceptionWhenGetHeadShaButNoSuitableSCMRevisionAvailable() {
-        Job job = mock(Job.class);
+        var job = mock(Job.class);
         SCMHead head = mock(SCMHead.class);
         SCMRevision revision = mock(SCMRevision.class);
         GiteaSCMSource source = mock(GiteaSCMSource.class);
@@ -110,7 +110,7 @@ class GiteaSCMSourceChecksContextTest {
 
     @Test
     void shouldGetRepositoryName() {
-        Job job = mock(Job.class);
+        var job = mock(Job.class);
         GiteaSCMSource source = mock(GiteaSCMSource.class);
 
         when(source.getRepoOwner()).thenReturn("jenkinsci");
@@ -123,7 +123,7 @@ class GiteaSCMSourceChecksContextTest {
 
     @Test
     void shouldThrowIllegalStateExceptionWhenGetRepositoryButNoGiteaSCMSourceAvailable() {
-        Job job = mock(Job.class);
+        var job = mock(Job.class);
         when(job.getName()).thenReturn("gitea-checks-plugin");
 
         assertThatThrownBy(
@@ -135,7 +135,7 @@ class GiteaSCMSourceChecksContextTest {
 
     @Test
     void shouldGetCredentials() {
-        Job job = mock(Job.class);
+        var job = mock(Job.class);
         GiteaSCMSource source = mock(GiteaSCMSource.class);
         StandardCredentials credentials = mock(StandardCredentials.class);
 
@@ -147,7 +147,7 @@ class GiteaSCMSourceChecksContextTest {
 
     @Test
     void shouldThrowIllegalStateExceptionWhenGetCredentialsButNoCredentialsAvailable() {
-        Job job = mock(Job.class);
+        var job = mock(Job.class);
         GiteaSCMSource source = mock(GiteaSCMSource.class);
 
         when(job.getName()).thenReturn("gitea-checks-plugin");
@@ -160,7 +160,7 @@ class GiteaSCMSourceChecksContextTest {
 
     @Test
     void shouldThrowIllegalStateExceptionWhenGetCredentialsButNoSourceAvailable() {
-        Job job = mock(Job.class);
+        var job = mock(Job.class);
         SCMFacade scmFacade = mock(SCMFacade.class);
 
         when(job.getName()).thenReturn("gitea-checks-plugin");
@@ -172,7 +172,7 @@ class GiteaSCMSourceChecksContextTest {
 
     @Test
     void shouldGetURLForJob() {
-        Job job = mock(Job.class);
+        var job = mock(Job.class);
 
         assertThat(GiteaSCMSourceChecksContext.fromJob(job, URL, createGiteaSCMFacadeWithSource(job, null))
                         .getURL())
@@ -223,8 +223,8 @@ class GiteaSCMSourceChecksContextTest {
 
     @Test
     void shouldReturnFalseWhenValidateContextButHasNoValidSHA() {
-        Run run = mock(Run.class);
-        Job job = mock(Job.class);
+        var run = mock(Run.class);
+        var job = mock(Job.class);
         GiteaSCMSource source = mock(GiteaSCMSource.class);
         StandardCredentials credentials = mock(StandardCredentials.class);
         FilteredLog logger = new FilteredLog("");

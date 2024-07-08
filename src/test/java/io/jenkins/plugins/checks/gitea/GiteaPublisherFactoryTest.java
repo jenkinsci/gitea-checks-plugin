@@ -21,8 +21,8 @@ import org.junit.jupiter.api.Test;
 class GiteaPublisherFactoryTest {
     @Test
     void shouldCreateGiteaChecksPublisherFromRunForProjectWithValidGiteaSCMSource() {
-        Run run = mock(Run.class);
-        Job job = mock(Job.class);
+        var run = mock(Run.class);
+        var job = mock(Job.class);
         GiteaSCMSource source = mock(GiteaSCMSource.class);
         StandardCredentials credentials = mock(StandardCredentials.class);
         PullRequestSCMRevision revision = mock(PullRequestSCMRevision.class);
@@ -42,8 +42,8 @@ class GiteaPublisherFactoryTest {
 
     @Test
     void shouldReturnGiteaChecksPublisherFromJobProjectWithValidGiteaSCMSource() {
-        Run run = mock(Run.class);
-        Job job = mock(Job.class);
+        var run = mock(Run.class);
+        var job = mock(Job.class);
         GiteaSCMSource source = mock(GiteaSCMSource.class);
         StandardCredentials credentials = mock(StandardCredentials.class);
         PullRequestSCMRevision revision = mock(PullRequestSCMRevision.class);
@@ -65,8 +65,8 @@ class GiteaPublisherFactoryTest {
 
     @Test
     void shouldCreateGiteaChecksPublisherFromRunForProjectWithValidGitSCM() throws IOException, InterruptedException {
-        Job job = mock(Job.class);
-        Run run = mock(Run.class);
+        var job = mock(Job.class);
+        var run = mock(Run.class);
         GitSCM gitSCM = mock(GitSCM.class);
         UserRemoteConfig config = mock(UserRemoteConfig.class);
         StandardCredentials credentials = mock(StandardCredentials.class);
@@ -89,7 +89,7 @@ class GiteaPublisherFactoryTest {
 
     @Test
     void shouldReturnEmptyFromRunForInvalidProject() {
-        Run run = mock(Run.class);
+        var run = mock(Run.class);
         SCMFacade facade = mock(SCMFacade.class);
         DisplayURLProvider urlProvider = mock(DisplayURLProvider.class);
 
@@ -99,7 +99,7 @@ class GiteaPublisherFactoryTest {
 
     @Test
     void shouldCreateNullPublisherFromJobForInvalidProject() {
-        Job job = mock(Job.class);
+        var job = mock(Job.class);
         SCMFacade facade = mock(SCMFacade.class);
         DisplayURLProvider urlProvider = mock(DisplayURLProvider.class);
 
