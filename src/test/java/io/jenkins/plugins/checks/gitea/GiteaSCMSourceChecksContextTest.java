@@ -259,7 +259,7 @@ class GiteaSCMSourceChecksContextTest {
     private SCMFacade createGiteaSCMFacadeWithRevision(
             final Run<?, ?> run,
             final GiteaSCMSource source,
-            @CheckForNull final SCMRevision revision,
+            final SCMRevision revision,
             @CheckForNull final String hash) {
         SCMFacade facade = createGiteaSCMFacadeWithSource(run.getParent(), source);
 
