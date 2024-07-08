@@ -65,6 +65,7 @@
 
     <spotless.check.skip>false</spotless.check.skip>
     <checkstyle.skip>true</checkstyle.skip>
+    <pmd.printFailingErrors>true</pmd.printFailingErrors>
   </properties>
 
   <dependencyManagement>

@@ -36,8 +36,6 @@ public class GitSCMChecksContextITest extends IntegrationTestBase {
         GitSCM scm = new GitSCM(
                 GitSCM.createRepoList(HTTP_URL, CREDENTIALS_ID),
                 Collections.singletonList(branchSpec),
-                false,
-                Collections.emptyList(),
                 null,
                 null,
                 Collections.emptyList());

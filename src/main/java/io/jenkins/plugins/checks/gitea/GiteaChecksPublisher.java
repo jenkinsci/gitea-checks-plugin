@@ -51,12 +51,8 @@ public class GiteaChecksPublisher extends ChecksPublisher {
      *                the details of a check run
      */
     @Override
-    @SuppressWarnings("PMD.CloseResource")
     public void publish(final ChecksDetails details) {
-        try {
-            // TODO: close connection
-            GiteaConnection giteaConnection = connect(giteaServerUrl, context.getCredentials());
-
+        try (GiteaConnection giteaConnection = connect(giteaServerUrl, context.getCredentials())) {
             GiteaChecksDetails giteaDetails = new GiteaChecksDetails(details);
             publishGiteaCommitStatus(giteaConnection, giteaDetails);
 

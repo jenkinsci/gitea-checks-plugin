@@ -14,7 +14,6 @@ import hudson.scm.SCM;
 import hudson.security.ACL;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import jenkins.authentication.tokens.api.AuthenticationTokens;
@@ -128,8 +127,7 @@ public class SCMFacade {
      */
     public Optional<StandardCredentials> findGiteaAppCredentials(final Job<?, ?> job, final String credentialsId) {
         StandardCredentials credential = CredentialsMatchers.firstOrNull(
-                CredentialsProvider.lookupCredentials(
-                        StandardCredentials.class, job, ACL.SYSTEM, Collections.emptyList()),
+                CredentialsProvider.lookupCredentialsInItem(StandardCredentials.class, job, ACL.SYSTEM2),
                 CredentialsMatchers.allOf(
                         AuthenticationTokens.matcher(GiteaAuth.class), CredentialsMatchers.withId(credentialsId)));
 
