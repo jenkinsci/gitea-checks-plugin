@@ -1,6 +1,7 @@
 package io.jenkins.plugins.checks.gitea;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.*;
 
 import com.cloudbees.plugins.credentials.common.StandardCredentials;
@@ -236,7 +237,7 @@ public class GiteaChecksPublisherITest extends IntegrationTestBase {
 
     private GiteaChecksContext createGiteaChecksContextWithGiteaSCMFromPipeline() {
         WorkflowJob job = createPipeline();
-        job.setDefinition(new CpsFlowDefinition("node {}", true));
+        assertDoesNotThrow(() -> job.setDefinition(new CpsFlowDefinition("node {}", true)));
         return createGiteaChecksContextWithGiteaSCM(job);
     }
 
