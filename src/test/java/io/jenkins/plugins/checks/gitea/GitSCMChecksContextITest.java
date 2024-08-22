@@ -1,6 +1,7 @@
 package io.jenkins.plugins.checks.gitea;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import hudson.model.FreeStyleProject;
 import hudson.model.Run;
@@ -58,7 +59,7 @@ public class GitSCMChecksContextITest extends IntegrationTestBase {
     public void shouldRetrieveContextFromPipeline() {
         WorkflowJob job = createPipeline();
 
-        job.setDefinition(new CpsFlowDefinition(
+        assertDoesNotThrow(() -> job.setDefinition(new CpsFlowDefinition(
                 "node {\n"
                         + "  stage ('Checkout') {\n"
                         + "    checkout scm: ([\n"
@@ -69,7 +70,7 @@ public class GitSCMChecksContextITest extends IntegrationTestBase {
                         + "            ])"
                         + "  }\n"
                         + "}\n",
-                true));
+                true)));
 
         Run<?, ?> run = buildSuccessfully(job);
 
