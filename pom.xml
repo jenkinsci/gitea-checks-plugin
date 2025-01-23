@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.jvnet.hudson.plugins</groupId>
     <artifactId>analysis-pom</artifactId>
-    <version>9.0.0</version>
+    <version>10.0.0</version>
     <relativePath />
   </parent>
 
@@ -51,7 +51,7 @@
 
   <properties>
     <changelist>999999-SNAPSHOT</changelist>
-    <jenkins.baseline>2.462</jenkins.baseline>
+    <jenkins.baseline>2.479</jenkins.baseline>
     <jenkins.version>${jenkins.baseline}.3</jenkins.version>
 
     <!-- TODO: fix me -->
