@@ -58,7 +58,7 @@
     <revapi.skip>true</revapi.skip>
 
     <!-- Jenkins Plug-in Dependencies Versions -->
-    <gitea.version>234.v60def593ec50</gitea.version>
+    <gitea.version>238.v626a_cf5e1940</gitea.version>
 
     <!-- Test Library Dependencies Versions -->
     <wiremock.version>3.11.0</wiremock.version>
