@@ -62,7 +62,7 @@
 
     <!-- Test Library Dependencies Versions -->
     <wiremock.version>3.12.1</wiremock.version>
-    <testcontainers.version>1.20.5</testcontainers.version>
+    <testcontainers.version>1.20.6</testcontainers.version>
 
     <spotless.check.skip>false</spotless.check.skip>
     <checkstyle.skip>true</checkstyle.skip>
