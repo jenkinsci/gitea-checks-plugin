@@ -25,23 +25,6 @@
     </license>
   </licenses>
 
-  <developers>
-    <developer>
-      <id>xiongkezhi</id>
-      <name>Kezhi Xiong</name>
-      <email>august.xkz@gmail.com</email>
-    </developer>
-    <developer>
-      <id>flozzone</id>
-      <name>Florin Hillebrand</name>
-      <email>flozzone@gmail.com</email>
-    </developer>
-    <developer>
-      <id>viceice</id>
-      <name>Michael Kriese</name>
-    </developer>
-  </developers>
-
   <scm>
     <connection>scm:git:https://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
