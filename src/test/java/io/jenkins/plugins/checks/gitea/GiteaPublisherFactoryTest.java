@@ -19,6 +19,7 @@ import org.jenkinsci.plugins.displayurlapi.DisplayURLProvider;
 import org.junit.jupiter.api.Test;
 
 class GiteaPublisherFactoryTest {
+
     @Test
     void shouldCreateGiteaChecksPublisherFromRunForProjectWithValidGiteaSCMSource() {
         var run = mock(Run.class);

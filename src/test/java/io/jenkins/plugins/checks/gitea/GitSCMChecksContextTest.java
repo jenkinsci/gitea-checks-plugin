@@ -7,8 +7,9 @@ import hudson.model.Run;
 import org.junit.jupiter.api.Test;
 
 class GitSCMChecksContextTest {
+
     @Test
-    public void shouldGetRepository() {
+    void shouldGetRepository() {
         for (String url : new String[] {
             "git@197.168.2.0:jenkinsci/gitea-checks-plugin",
             "git@localhost:jenkinsci/gitea-checks-plugin",

@@ -11,6 +11,7 @@ import org.jenkinsci.plugin.gitea.client.api.GiteaCommitState;
 import org.junit.jupiter.api.Test;
 
 class GiteaChecksDetailsTest {
+
     @Test
     void shouldReturnAllGiteaObjectsCorrectly() {
         ChecksDetails details = new ChecksDetailsBuilder()

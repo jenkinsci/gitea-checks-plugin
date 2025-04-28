@@ -18,6 +18,7 @@ import org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider;
 import org.junit.jupiter.api.Test;
 
 class GiteaSCMSourceChecksContextTest {
+
     private static final String URL = "URL";
 
     @Test
