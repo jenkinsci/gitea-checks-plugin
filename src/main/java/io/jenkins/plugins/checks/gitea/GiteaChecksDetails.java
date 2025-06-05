@@ -62,7 +62,7 @@ class GiteaChecksDetails {
      * @throws IllegalArgumentException if the status of the {@code details} is not
      *                                  one of {@link ChecksStatus}
      */
-    @SuppressWarnings({"PMD.CyclomaticComplexity","PMD.ExhaustiveSwitchHasDefault"})
+    @SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.ExhaustiveSwitchHasDefault"})
     public GiteaCommitState getStatus() {
         switch (details.getStatus()) {
             case NONE:
