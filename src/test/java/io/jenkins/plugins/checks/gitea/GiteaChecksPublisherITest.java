@@ -218,6 +218,7 @@ class GiteaChecksPublisherITest {
         });
     }
 
+    @SuppressWarnings("PMD.SignatureDeclareThrowsException")
     private <R extends Run<J, R> & Queue.Executable, J extends Job<J, R> & ParameterizedJobMixIn.ParameterizedJob<J, R>>
             GiteaChecksContext createGiteaChecksContextWithGiteaSCM(final J job, final boolean fromJob)
                     throws Exception {
