@@ -85,7 +85,7 @@ class GiteaChecksDetails {
                     default:
                         throw new IllegalArgumentException("Unsupported checks status: " + details.getStatus());
                 }
-                // fallthrough - Can't happen happen
+            // fallthrough - Can't happen happen
             default:
                 throw new IllegalArgumentException("Unsupported checks status: " + details.getStatus());
         }
