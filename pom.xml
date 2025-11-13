@@ -52,6 +52,7 @@
     <spotless.check.skip>false</spotless.check.skip>
     <checkstyle.skip>true</checkstyle.skip>
     <pmd.printFailingErrors>true</pmd.printFailingErrors>
+    <ban-junit4-imports.skip>false</ban-junit4-imports.skip>
   </properties>
 
   <dependencyManagement>
