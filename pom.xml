@@ -46,7 +46,7 @@
     <gitea.version>250.v76a_0b_d4fef5b_</gitea.version>
 
     <!-- Test Library Dependencies Versions -->
-    <wiremock.version>3.13.1</wiremock.version>
+    <wiremock.version>3.13.2</wiremock.version>
     <testcontainers.version>1.21.0</testcontainers.version>
 
     <spotless.check.skip>false</spotless.check.skip>
