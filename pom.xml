@@ -34,7 +34,7 @@
 
   <properties>
     <!-- Bump when baseline was bumped -->
-    <revision>602</revision>
+    <revision>603</revision>
     <changelist>999999-SNAPSHOT</changelist>
     <jenkins.baseline>2.528</jenkins.baseline>
     <jenkins.version>${jenkins.baseline}.3</jenkins.version>
@@ -43,7 +43,7 @@
     <revapi.skip>true</revapi.skip>
 
     <!-- Jenkins Plug-in Dependencies Versions -->
-    <gitea.version>250.v76a_0b_d4fef5b_</gitea.version>
+    <gitea.version>268.v75e47974c01d</gitea.version>
 
     <!-- Test Library Dependencies Versions -->
     <wiremock.version>3.13.2</wiremock.version>
