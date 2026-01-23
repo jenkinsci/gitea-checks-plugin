@@ -34,16 +34,16 @@
 
   <properties>
     <!-- Bump when baseline was bumped -->
-    <revision>601</revision>
+    <revision>603</revision>
     <changelist>999999-SNAPSHOT</changelist>
-    <jenkins.baseline>2.516</jenkins.baseline>
+    <jenkins.baseline>2.528</jenkins.baseline>
     <jenkins.version>${jenkins.baseline}.3</jenkins.version>
 
     <!-- TODO: fix me -->
     <revapi.skip>true</revapi.skip>
 
     <!-- Jenkins Plug-in Dependencies Versions -->
-    <gitea.version>250.v76a_0b_d4fef5b_</gitea.version>
+    <gitea.version>268.v75e47974c01d</gitea.version>
 
     <!-- Test Library Dependencies Versions -->
     <wiremock.version>3.13.2</wiremock.version>
@@ -60,7 +60,7 @@
       <dependency>
         <groupId>io.jenkins.tools.bom</groupId>
         <artifactId>bom-${jenkins.baseline}.x</artifactId>
-        <version>5681.v79d2ddf61465</version>
+        <version>5933.vcf06f7b_5d1a_2</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
