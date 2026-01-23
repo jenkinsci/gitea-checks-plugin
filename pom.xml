@@ -3,9 +3,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.jvnet.hudson.plugins</groupId>
-    <artifactId>analysis-pom</artifactId>
-    <version>11.2867.v81ec3848d647</version>
+    <groupId>org.jenkins-ci.plugins</groupId>
+    <artifactId>plugin</artifactId>
+    <version>6.2116.v7501b_67dc517</version>
     <relativePath />
   </parent>
 
@@ -39,20 +39,21 @@
     <jenkins.baseline>2.528</jenkins.baseline>
     <jenkins.version>${jenkins.baseline}.3</jenkins.version>
 
-    <!-- TODO: fix me -->
-    <revapi.skip>true</revapi.skip>
-
     <!-- Jenkins Plug-in Dependencies Versions -->
     <gitea.version>268.v75e47974c01d</gitea.version>
 
     <!-- Test Library Dependencies Versions -->
+    <assertj.version>3.27.6</assertj.version>
     <wiremock.version>3.13.2</wiremock.version>
     <testcontainers.version>1.21.0</testcontainers.version>
 
-    <spotless.check.skip>false</spotless.check.skip>
-    <checkstyle.skip>true</checkstyle.skip>
     <pmd.printFailingErrors>true</pmd.printFailingErrors>
+
+    <spotless.check.skip>false</spotless.check.skip>
     <ban-junit4-imports.skip>false</ban-junit4-imports.skip>
+    <ban-commons-lang-2.skip>false</ban-commons-lang-2.skip>
+    <hpi.strictBundledArtifacts>true</hpi.strictBundledArtifacts>
+    <hpi.bundledArtifacts />
   </properties>
 
   <dependencyManagement>
@@ -111,6 +112,13 @@
     </dependency>
 
     <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${assertj.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>ssh-credentials</artifactId>
       <scope>test</scope>
@@ -141,6 +149,18 @@
     </dependency>
 
     <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
       <groupId>org.wiremock</groupId>
       <artifactId>wiremock-standalone</artifactId>
       <version>${wiremock.version}</version>
@@ -161,20 +181,5 @@
       <url>https://repo.jenkins-ci.org/public/</url>
     </pluginRepository>
   </pluginRepositories>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.assertj</groupId>
-        <artifactId>assertj-assertions-generator-maven-plugin</artifactId>
-        <configuration>
-          <packages combine.children="append">
-            <package>io.jenkins.plugins.checks.gitea</package>
-          </packages>
-          <entryPointClassPackage>io.jenkins.plugins.checks.gitea.assertions</entryPointClassPackage>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>
