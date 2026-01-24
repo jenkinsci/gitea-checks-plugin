@@ -43,7 +43,7 @@
     <gitea.version>268.v75e47974c01d</gitea.version>
 
     <!-- Test Library Dependencies Versions -->
-    <assertj.version>3.27.6</assertj.version>
+    <assertj.version>3.27.7</assertj.version>
     <wiremock.version>3.13.2</wiremock.version>
     <testcontainers.version>1.21.0</testcontainers.version>
 
