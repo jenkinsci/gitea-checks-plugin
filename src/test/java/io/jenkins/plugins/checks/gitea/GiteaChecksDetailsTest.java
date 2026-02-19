@@ -6,7 +6,6 @@ import io.jenkins.plugins.checks.api.ChecksConclusion;
 import io.jenkins.plugins.checks.api.ChecksDetails;
 import io.jenkins.plugins.checks.api.ChecksDetails.ChecksDetailsBuilder;
 import io.jenkins.plugins.checks.api.ChecksStatus;
-import org.apache.commons.lang3.StringUtils;
 import org.jenkinsci.plugin.gitea.client.api.GiteaCommitState;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +29,7 @@ class GiteaChecksDetailsTest {
     @Test
     void shouldReturnEmptyWhenDetailsURLIsBlank() {
         GiteaChecksDetails giteaChecksDetails = new GiteaChecksDetails(
-                new ChecksDetailsBuilder().withDetailsURL(StringUtils.EMPTY).build());
+                new ChecksDetailsBuilder().withDetailsURL("").build());
         assertThat(giteaChecksDetails.getDetailsURL()).isEmpty();
     }
 
