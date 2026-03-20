@@ -34,9 +34,9 @@
 
   <properties>
     <!-- Bump when baseline was bumped -->
-    <revision>604</revision>
+    <revision>605</revision>
     <changelist>999999-SNAPSHOT</changelist>
-    <jenkins.baseline>2.516</jenkins.baseline>
+    <jenkins.baseline>2.541</jenkins.baseline>
     <jenkins.version>${jenkins.baseline}.3</jenkins.version>
 
     <!-- Jenkins Plug-in Dependencies Versions -->
