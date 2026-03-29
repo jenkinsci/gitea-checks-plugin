@@ -7,7 +7,6 @@ import hudson.model.Run;
 import java.util.Optional;
 import jenkins.scm.api.SCMHead;
 import jenkins.scm.api.SCMRevision;
-import org.apache.commons.lang3.StringUtils;
 import org.jenkinsci.plugin.gitea.GiteaSCMSource;
 
 /**
@@ -49,7 +48,7 @@ final class GiteaSCMSourceChecksContext extends GiteaChecksContext {
 
     @Override
     public String getHeadSha() {
-        if (StringUtils.isBlank(sha)) {
+        if (sha == null || sha.isBlank()) {
             throw new IllegalStateException("No SHA found for job: " + getJob().getName());
         }
 
@@ -109,7 +108,7 @@ final class GiteaSCMSourceChecksContext extends GiteaChecksContext {
             return false;
         }
 
-        if (StringUtils.isBlank(sha)) {
+        if (sha == null || sha.isBlank()) {
             logger.logError("No HEAD SHA found for %s", getRepository());
 
             return false;
