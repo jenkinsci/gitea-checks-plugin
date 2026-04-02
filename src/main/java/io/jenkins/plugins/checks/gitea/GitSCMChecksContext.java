@@ -14,7 +14,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * Provides a {@link GiteaChecksContext} for a Jenkins job that uses a supported
@@ -56,7 +55,7 @@ class GitSCMChecksContext extends GiteaChecksContext {
         } catch (IOException | InterruptedException e) {
             // ignore and return a default
         }
-        return StringUtils.EMPTY;
+        return "";
     }
 
     public String getGitCommitEnvironment() throws IOException, InterruptedException {
@@ -71,14 +70,14 @@ class GitSCMChecksContext extends GiteaChecksContext {
                 return lastBuiltRevision.getSha1().getName();
             }
         }
-        return StringUtils.EMPTY;
+        return "";
     }
 
     @Override
     public String getRepository() {
         String repositoryURL = getUserRemoteConfig().getUrl();
         if (repositoryURL == null) {
-            return StringUtils.EMPTY;
+            return "";
         }
 
         return getRepository(repositoryURL);
@@ -106,7 +105,7 @@ class GitSCMChecksContext extends GiteaChecksContext {
         try {
             url = new URL(repoUrl);
         } catch (MalformedURLException e) {
-            return StringUtils.EMPTY;
+            return "";
         }
 
         return "https://" + url.getHost();
@@ -115,7 +114,7 @@ class GitSCMChecksContext extends GiteaChecksContext {
     @VisibleForTesting
     String getRepository(final String repositoryUrl) {
         if (StringUtils.isBlank(repositoryUrl)) {
-            return StringUtils.EMPTY;
+            return "";
         }
 
         if (repositoryUrl.startsWith("http")) {
@@ -123,18 +122,18 @@ class GitSCMChecksContext extends GiteaChecksContext {
             try {
                 url = new URL(repositoryUrl);
             } catch (MalformedURLException e) {
-                return StringUtils.EMPTY;
+                return "";
             }
 
             String[] pathParts = StringUtils.removeStart(url.getPath(), "/").split("/");
-            if (pathParts.length == NumberUtils.INTEGER_TWO) {
+            if (pathParts.length == 2) {
                 return pathParts[0] + "/" + StringUtils.removeEnd(pathParts[1], ".git");
             }
         } else if (repositoryUrl.matches("git@.+:.+\\/.+")) {
             return StringUtils.removeEnd(repositoryUrl.split(":")[1], ".git");
         }
 
-        return StringUtils.EMPTY;
+        return "";
     }
 
     @Override
