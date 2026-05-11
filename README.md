@@ -1,5 +1,11 @@
 # Gitea Checks API Plugin
 
+[![Build Status](https://ci.jenkins.io/buildStatus/icon?job=Plugins%2Fgitea-checks-plugin%2Fmain)](https://ci.jenkins.io/job/Plugins/job/gitea-checks-plugin/job/main)
+[![Coverage](https://ci.jenkins.io/buildStatus/icon?job=Plugins%2Fgitea-checks-plugin%2Fmain&subject=coverage&status=%24%7BinstructionCoverage%7D&color=%24%7BcolorInstructionCoverage%7D)](https://ci.jenkins.io/job/Plugins/job/gitea-checks-plugin/job/main/coverage)
+[![Version](https://img.shields.io/jenkins/plugin/v/gitea-checks.svg)](https://plugins.jenkins.io/gitea-checks)
+[![Changelog](https://img.shields.io/github/release/jenkinsci/gitea-checks-plugin.svg?label=changelog)](https://github.com/jenkinsci/gitea-checks-plugin/releases/latest)
+[![Installs](https://img.shields.io/jenkins/plugin/i/gitea-checks.svg?color=blue)](https://plugins.jenkins.io/gitea-checks)
+
 ![Gitea Checks Plugin Cover](docs/images/gitea-checks-plugin-cover.png)
 
 This plugin publishes checks to Gitea through Gitea API, while it implements the extension points defined in 
