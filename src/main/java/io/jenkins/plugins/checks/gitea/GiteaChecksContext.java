@@ -6,7 +6,6 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 import hudson.model.Job;
 import hudson.model.Run;
 import java.util.Optional;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * Base class for a context that publishes Gitea checks.
@@ -37,7 +36,8 @@ public abstract class GiteaChecksContext {
     public abstract String getRepoOwner();
 
     /**
-     * Returns the source repository's name of the run. The name consists of the repository's name, e.g. jenkins
+     * Returns the source repository's name of the run. The name consists of the
+     * repository's name, e.g. jenkins
      *
      * @return the source repository's name
      */
@@ -51,7 +51,8 @@ public abstract class GiteaChecksContext {
     public abstract String getGiteaServerUrl();
 
     /**
-     * Returns the source repository's full name of the run. The full name consists of the owner's name and the
+     * Returns the source repository's full name of the run. The full name consists
+     * of the owner's name and the
      * repository's name, e.g. jenkins-ci/jenkins
      *
      * @return the source repository's full name
@@ -62,7 +63,7 @@ public abstract class GiteaChecksContext {
      * Returns whether the context is valid (with all properties functional) to use.
      *
      * @param logger
-     *         the filtered logger
+     *               the filtered logger
      * @return whether the context is valid to use
      */
     public abstract boolean isValid(FilteredLog logger);
@@ -76,11 +77,13 @@ public abstract class GiteaChecksContext {
      * @return the credentials
      */
     public StandardCredentials getCredentials() {
-        return getGiteaAppCredentials(StringUtils.defaultIfEmpty(getCredentialsId(), ""));
+        var id = getCredentialsId();
+        return getGiteaAppCredentials(id == null || id.isEmpty() ? "" : id);
     }
 
     /**
-     * Returns the URL of the run's summary page, e.g. https://ci.jenkins.io/job/Core/job/jenkins/job/master/2000/.
+     * Returns the URL of the run's summary page, e.g.
+     * https://ci.jenkins.io/job/Core/job/jenkins/job/master/2000/.
      *
      * @return the URL of the summary page
      */
@@ -98,17 +101,19 @@ public abstract class GiteaChecksContext {
 
     protected StandardCredentials getGiteaAppCredentials(final String credentialsId) {
         return findGiteaAppCredentials(credentialsId)
-                .orElseThrow(() ->
-                        new IllegalStateException("No Gitea APP credentials available for job: " + getJob().getName()));
+                .orElseThrow(() -> new IllegalStateException(
+                        "No Gitea APP credentials available for job: " + getJob().getName()));
     }
 
     protected boolean hasGiteaAppCredentials() {
-        return findGiteaAppCredentials(StringUtils.defaultIfEmpty(getCredentialsId(), ""))
+        var id = getCredentialsId();
+        return findGiteaAppCredentials(id == null || id.isEmpty() ? "" : id)
                 .isPresent();
     }
 
     protected boolean hasCredentialsId() {
-        return StringUtils.isNoneBlank(getCredentialsId());
+        var id = getCredentialsId();
+        return id != null && !id.isBlank();
     }
 
     protected boolean hasValidCredentials(final FilteredLog logger) {
