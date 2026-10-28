@@ -34,13 +34,13 @@
 
   <properties>
     <!-- Bump when baseline was bumped -->
-    <revision>606</revision>
+    <revision>607</revision>
     <changelist>999999-SNAPSHOT</changelist>
     <jenkins.baseline>2.541</jenkins.baseline>
     <jenkins.version>${jenkins.baseline}.3</jenkins.version>
 
     <!-- Jenkins Plug-in Dependencies Versions -->
-    <gitea.version>283.v14b_179495971</gitea.version>
+    <gitea.version>286.v0740a_413c1eb_</gitea.version>
 
     <!-- Test Library Dependencies Versions -->
     <assertj.version>3.27.7</assertj.version>
